@@ -1,7 +1,9 @@
 asgiref==3.9.2
 charset-normalizer==3.4.7
 Django==5.2.7
+gunicorn==26.0.0
 mysqlclient==2.2.7
+packaging==26.2
 pillow==12.2.0
 reportlab==4.5.1
 sqlparse==0.5.3
