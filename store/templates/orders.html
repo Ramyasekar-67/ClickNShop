@@ -1,0 +1,37 @@
+<div class="container mt-4">
+
+    <h2>📦 My Orders</h2>
+
+    {% for order in orders %}
+
+    <div class="card p-3 mb-3">
+
+        <h5>Order #{{ order.id }}</h5>
+        <p>Total: ₹{{ order.total_price }}</p>
+        <p>Status:<span class="badge bg-info">{{ order.status }}</span></p>
+        <p>Date: {{ order.created_at }}</p>
+
+        <a href="{% url 'invoice' order.id %}"
+         class="btn btn-primary btn-sm mb-3">
+            📄 Download Invoice
+        </a>
+
+<hr>
+
+<h6>Items:</h6>
+
+        {% for item in order.orderitem_set.all %}
+            <p>
+                {{ item.product.name }} -
+                Qty: {{ item.quantity }} -
+                ₹{{ item.price }}
+            </p>
+        {% endfor %}
+
+    </div>
+
+    {% empty %}
+        <p>No orders yet 😢</p>
+    {% endfor %}
+
+</div>

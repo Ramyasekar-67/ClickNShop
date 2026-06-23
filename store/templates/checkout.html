@@ -1,0 +1,13 @@
+<h2>Checkout Page 🧾</h2>
+
+{% for item in cart_items %}
+<p>
+    {{ item.product.name }} - ₹{{ item.product.price }} x {{ item.quantity }}
+</p>
+{% endfor %}
+
+<h3>Total: ₹{{ total }}</h3>
+
+<a href="/place-order/" class="btn btn-success">
+    Place Order 🎉
+</a>
