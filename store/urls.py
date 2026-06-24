@@ -19,7 +19,6 @@ urlpatterns = [
     path('add-product/', views.add_product, name='add_product'),
     path('wishlist/add/<int:product_id>/',views.add_to_wishlist,name='add_to_wishlist'),
     path('review/<int:product_id>/',views.add_review,name='add_review'),
-    path('product/<int:product_id>/',views.product_detail,name='product_detail'),
     path('wishlist/', views.wishlist_view,name='wishlist'),
     path('profile/',views.profile_view,name='profile'),
     path('seller-dashboard/',views.seller_dashboard,name='seller_dashboard'),

@@ -76,8 +76,7 @@ def add_to_cart(request, product_id):
         request,
         'Product is out of stock!'
     )
-
-    return redirect('/')
+        return redirect('/')
     cart_item, created = Cart.objects.get_or_create(
         user=request.user,
         product=product
@@ -92,7 +91,9 @@ def add_to_cart(request, product_id):
         'Product added to cart successfully!'
     )
 
-    return redirect('/')
+    return redirect('/')    
+
+
 
 def cart_view(request):
 

@@ -8,3 +8,4 @@ pillow==12.2.0
 reportlab==4.5.1
 sqlparse==0.5.3
 tzdata==2025.2
+whitenoise==6.12.0
