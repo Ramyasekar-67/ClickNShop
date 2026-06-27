@@ -139,12 +139,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+import os
 import cloudinary
 
 cloudinary.config(
-    cloud_name='dekjf7vlp',
-    api_key=656891743385783,
-    api_secret= 'pNgo0zw8issz5HMgZx4aJ0fxAQU'
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
