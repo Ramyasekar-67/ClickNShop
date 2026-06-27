@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store',
+    'cloudinary',
+    'cloudinary_storage',
+    'store', 
 ]
 
 MIDDLEWARE = [
@@ -136,3 +138,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+import cloudinary
+
+cloudinary.config(
+    cloud_name='dekjf7vlp',
+    api_key=656891743385783,
+    api_secret= 'pNgo0zw8issz5HMgZx4aJ0fxAQU'
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
