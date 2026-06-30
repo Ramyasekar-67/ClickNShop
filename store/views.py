@@ -171,6 +171,11 @@ def place_order(request):
     if not cart_items.exists():
         return redirect('cart')
 
+    payment_method = request.POST.get(
+        'payment_method',
+        'Cash on Delivery'
+    )
+
     total = 0
 
     for item in cart_items:
@@ -186,7 +191,8 @@ def place_order(request):
 
     order = Order.objects.create(
         user=request.user,
-        total_price=total
+        total_price=total,
+        payment_method=payment_method
     )
 
     for item in cart_items:
@@ -207,9 +213,13 @@ def place_order(request):
     return render(
         request,
         'success.html',
-        {'order': order}
-    ) 
+        {
+            'order': order
+        }
+    )
 
+
+    
 def my_orders(request):
     if not request.user.is_authenticated:
         return redirect('/login/')

@@ -1,67 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Checkout</title>
+    <title>Payment</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body class="container mt-5">
+<body class="bg-light">
 
-    <h2 class="mb-4">🧾 Checkout</h2>
+<div class="container mt-5">
 
-    <table class="table table-bordered">
+    <div class="card shadow p-4">
 
-        <thead class="table-dark">
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-            </tr>
-        </thead>
+        <h2 class="text-center mb-4">
+            💳 Choose Payment Method
+        </h2>
 
-        <tbody>
+        <h4>Total Amount:
+            <span class="text-success">
+                ₹{{ total_price }}
+            </span>
+        </h4>
 
-        {% for item in cart_items %}
+        <hr>
 
-        <tr>
+        <form action="{% url 'place_order' %}" method="POST">
 
-            <td>{{ item.product.name }}</td>
+            {% csrf_token %}
 
-            <td>₹{{ item.product.price }}</td>
+            <div class="form-check mb-3">
 
-            <td>{{ item.quantity }}</td>
+                <input class="form-check-input"
+                       type="radio"
+                       name="payment_method"
+                       value="Credit Card"
+                       required>
 
-            <td>₹{{ item.product.price|floatformat:2 }} × {{ item.quantity }}</td>
+                <label class="form-check-label">
+                    💳 Credit / Debit Card
+                </label>
 
-        </tr>
+            </div>
 
-        {% endfor %}
+            <div class="form-check mb-3">
 
-        </tbody>
+                <input class="form-check-input"
+                       type="radio"
+                       name="payment_method"
+                       value="UPI">
 
-    </table>
+                <label class="form-check-label">
+                    📱 UPI
+                </label>
 
-    <h3 class="mb-4">
-        Grand Total :
-        ₹{{ total_price }}
-    </h3>
+            </div>
 
-    <a href="{% url 'place_order' %}"
-       class="btn btn-success btn-lg">
+            <div class="form-check mb-3">
 
-       ✅ Place Order
+                <input class="form-check-input"
+                       type="radio"
+                       name="payment_method"
+                       value="Net Banking">
 
-    </a>
+                <label class="form-check-label">
+                    🏦 Net Banking
+                </label>
 
-    <a href="{% url 'cart' %}"
-       class="btn btn-secondary btn-lg">
+            </div>
 
-       ⬅ Back to Cart
+            <div class="form-check mb-4">
 
-    </a>
+                <input class="form-check-input"
+                       type="radio"
+                       name="payment_method"
+                       value="Cash on Delivery"
+                       checked>
+
+                <label class="form-check-label">
+                    💵 Cash on Delivery
+                </label>
+
+            </div>
+
+            <button class="btn btn-success w-100">
+
+                ✅ Pay & Place Order
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>
