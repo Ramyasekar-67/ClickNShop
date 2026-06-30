@@ -161,22 +161,36 @@ def register(request):
 
     return render(request, 'register.html', {'form': form})    
 
+
+
 @login_required
-def checkout(request):
+def place_order(request):
+
     cart_items = Cart.objects.filter(user=request.user)
 
-    if not cart_items:
+    if not cart_items.exists():
         return redirect('cart')
 
-    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    total = 0
+
+    for item in cart_items:
+
+        if item.quantity > item.product.stock:
+            messages.error(
+                request,
+                f"Only {item.product.stock} items available for {item.product.name}."
+            )
+            return redirect('cart')
+
+        total += item.product.price * item.quantity
 
     order = Order.objects.create(
         user=request.user,
-        total_price=total_price
+        total_price=total
     )
 
-    # Save each cart item into OrderItem
     for item in cart_items:
+
         OrderItem.objects.create(
             order=order,
             product=item.product,
@@ -184,32 +198,17 @@ def checkout(request):
             price=item.product.price
         )
 
+        # Reduce stock
+        item.product.stock -= item.quantity
+        item.product.save()
+
     cart_items.delete()
 
-    return render(request, 'success.html', {
-        'order': order
-    })
-
-def place_order(request):
-    if not request.user.is_authenticated:
-        return redirect('/login/')
-
-    cart_items = Cart.objects.filter(user=request.user)
-
-    total = 0
-    for item in cart_items:
-        total += item.product.price * item.quantity
-
-    # save order
-    Order.objects.create(
-        user=request.user,
-        total_price=total
-    )
-
-    # clear cart
-    cart_items.delete()
-
-    return render(request, 'order_success.html')    
+    return render(
+        request,
+        'success.html',
+        {'order': order}
+    ) 
 
 def my_orders(request):
     if not request.user.is_authenticated:

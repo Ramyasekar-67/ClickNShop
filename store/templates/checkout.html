@@ -1,13 +1,67 @@
-<h2>Checkout Page 🧾</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
 
-{% for item in cart_items %}
-<p>
-    {{ item.product.name }} - ₹{{ item.product.price }} x {{ item.quantity }}
-</p>
-{% endfor %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
 
-<h3>Total: ₹{{ total }}</h3>
+<body class="container mt-5">
 
-<a href="/place-order/" class="btn btn-success">
-    Place Order 🎉
-</a>
+    <h2 class="mb-4">🧾 Checkout</h2>
+
+    <table class="table table-bordered">
+
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for item in cart_items %}
+
+        <tr>
+
+            <td>{{ item.product.name }}</td>
+
+            <td>₹{{ item.product.price }}</td>
+
+            <td>{{ item.quantity }}</td>
+
+            <td>₹{{ item.product.price|floatformat:2 }} × {{ item.quantity }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <h3 class="mb-4">
+        Grand Total :
+        ₹{{ total_price }}
+    </h3>
+
+    <a href="{% url 'place_order' %}"
+       class="btn btn-success btn-lg">
+
+       ✅ Place Order
+
+    </a>
+
+    <a href="{% url 'cart' %}"
+       class="btn btn-secondary btn-lg">
+
+       ⬅ Back to Cart
+
+    </a>
+
+</body>
+</html>

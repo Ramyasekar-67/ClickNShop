@@ -15,7 +15,7 @@ urlpatterns = [
     path('place-order/', views.place_order, name='place_order'),
     path('my-orders/', views.my_orders, name='my_orders'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('checkout/', views.checkout, name='checkout'),
+    
     path('add-product/', views.add_product, name='add_product'),
     path('wishlist/add/<int:product_id>/',views.add_to_wishlist,name='add_to_wishlist'),
     path('review/<int:product_id>/',views.add_review,name='add_review'),
@@ -24,7 +24,7 @@ urlpatterns = [
     path('seller-dashboard/',views.seller_dashboard,name='seller_dashboard'),
     path('edit-product/<int:product_id>/', views.edit_product, name='edit_product'),
     path('delete-product/<int:product_id>/', views.delete_product, name='delete_product'),
-    path('checkout/',views.checkout,name='checkout'),
+    
     path('remove-wishlist/<int:wishlist_id>/',views.remove_from_wishlist,name='remove_from_wishlist'),
     path('invoice/<int:order_id>/',views.generate_invoice,name='invoice'),
     path('apply-coupon/',views.apply_coupon,name='apply_coupon'),
