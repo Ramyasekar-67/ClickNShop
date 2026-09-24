@@ -1,0 +1,1052 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | ClickNShop</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        /* =====================================================
+           LOGIN PAGE ONLY
+           ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif !important;
+            background: #f6f7f9 !important;
+            color: #111111 !important;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+           ===================================================== */
+
+        .professional-auth-navbar {
+            width: 100%;
+            height: 72px;
+            background: #111111 !important;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .professional-auth-navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .auth-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .auth-brand-orange {
+            color: #ff5a1f;
+        }
+
+        .auth-brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #ff5a1f;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+
+        .auth-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 9px 16px;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            transition: 0.25s ease;
+        }
+
+        .auth-home-link:hover {
+            background: #ff5a1f;
+            border-color: #ff5a1f;
+            color: #ffffff !important;
+        }
+
+
+        /* =====================================================
+           MAIN
+           ===================================================== */
+
+        .professional-auth-main {
+            width: 100%;
+            min-height: calc(100vh - 72px);
+            padding: 55px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f6f7f9 !important;
+        }
+
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 1080px;
+            min-height: 600px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #ffffff !important;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* =====================================================
+           LEFT SIDE
+           ===================================================== */
+
+        .auth-showcase {
+            position: relative;
+            background: #111111 !important;
+            padding: 60px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+
+        .auth-showcase::before {
+            content: "";
+            position: absolute;
+            width: 330px;
+            height: 330px;
+            border-radius: 50%;
+            background: #ff5a1f;
+            opacity: 0.10;
+            top: -130px;
+            right: -100px;
+        }
+
+
+        .auth-showcase::after {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            border: 45px solid #ff5a1f;
+            opacity: 0.07;
+            bottom: -140px;
+            left: -130px;
+        }
+
+
+        .showcase-content {
+            position: relative;
+            z-index: 2;
+            max-width: 440px;
+        }
+
+
+        .showcase-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: rgba(255, 90, 31, 0.12);
+            border: 1px solid rgba(255, 90, 31, 0.25);
+            color: #ff8a5f;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+
+        .showcase-content h1 {
+            margin: 0 0 22px 0;
+            color: #ffffff !important;
+            font-size: 43px;
+            line-height: 1.18;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+
+        .showcase-content h1 span {
+            color: #ff5a1f !important;
+        }
+
+
+        .showcase-description {
+            color: #b8b8b8 !important;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 38px;
+        }
+
+
+        /* =====================================================
+           FEATURES
+           ===================================================== */
+
+        .showcase-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+
+        .showcase-feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: rgba(255, 90, 31, 0.12);
+            color: #ff5a1f !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+
+        .showcase-feature strong {
+            display: block;
+            color: #ffffff !important;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+
+        .showcase-feature small {
+            color: #909090 !important;
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           RIGHT FORM
+           ===================================================== */
+
+        .auth-form-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            background: #ffffff !important;
+        }
+
+
+        .professional-auth-card {
+            width: 100%;
+            max-width: 390px;
+        }
+
+
+        .professional-auth-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 15px;
+            background: #fff1eb !important;
+            color: #ff5a1f !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+
+        .professional-auth-card h2 {
+            color: #111111 !important;
+            font-size: 29px;
+            font-weight: 700;
+            margin: 0 0 7px 0;
+        }
+
+
+        .professional-auth-subtitle {
+            color: #777777 !important;
+            font-size: 13px;
+            margin: 0 0 30px 0;
+        }
+
+
+        /* =====================================================
+           ALERT
+           ===================================================== */
+
+        .professional-alert {
+            border-radius: 9px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           FORM
+           ===================================================== */
+
+        .professional-form-group {
+            margin-bottom: 21px;
+        }
+
+
+        .professional-form-group label {
+            display: block;
+            color: #333333 !important;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+
+        .professional-input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #dddddd !important;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            background: #ffffff !important;
+            overflow: hidden;
+            transition: 0.25s ease;
+        }
+
+
+        .professional-input:focus-within {
+            border-color: #ff5a1f !important;
+            box-shadow: 0 0 0 3px rgba(255, 90, 31, 0.10);
+        }
+
+
+        .professional-input > i {
+            color: #999999 !important;
+            font-size: 16px;
+            margin-left: 15px;
+        }
+
+
+        .professional-input input {
+            width: 100%;
+            height: 100%;
+            border: none !important;
+            outline: none !important;
+            padding: 0 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #222222 !important;
+            background: transparent !important;
+        }
+
+
+        .professional-input input::placeholder {
+            color: #aaaaaa !important;
+        }
+
+
+        .password-toggle {
+            border: none !important;
+            background: transparent !important;
+            color: #999999 !important;
+            margin-right: 13px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+
+        .password-toggle:hover {
+            color: #ff5a1f !important;
+        }
+
+
+        /* =====================================================
+           LOGIN BUTTON
+           ===================================================== */
+
+        .professional-login-btn {
+            width: 100%;
+            height: 51px;
+            border: none !important;
+            border-radius: 9px;
+            background: #ff5a1f !important;
+            color: #ffffff !important;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.25s ease;
+            margin-top: 8px;
+        }
+
+
+        .professional-login-btn:hover {
+            background: #e94a12 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(255, 90, 31, 0.22);
+        }
+
+
+        /* =====================================================
+           DIVIDER
+           ===================================================== */
+
+        .professional-auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 27px 0 17px;
+        }
+
+
+        .professional-auth-divider::before,
+        .professional-auth-divider::after {
+            content: "";
+            height: 1px;
+            background: #eeeeee;
+            flex: 1;
+        }
+
+
+        .professional-auth-divider span {
+            color: #999999 !important;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           REGISTER
+           ===================================================== */
+
+        .professional-register-btn {
+            width: 100%;
+            height: 47px;
+            border: 1px solid #dddddd !important;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #333333 !important;
+            background: #ffffff !important;
+            text-decoration: none !important;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.25s ease;
+        }
+
+
+        .professional-register-btn:hover {
+            border-color: #ff5a1f !important;
+            color: #ff5a1f !important;
+            background: #fffaf8 !important;
+        }
+
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        .professional-auth-footer {
+            width: 100%;
+            background: #111111 !important;
+            color: #888888 !important;
+            padding: 24px 0;
+        }
+
+
+        .auth-footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+
+        .auth-footer-content strong {
+            color: #ffffff !important;
+            font-size: 15px;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+
+        .auth-footer-content strong i {
+            color: #ff5a1f !important;
+            margin-right: 5px;
+        }
+
+
+        .auth-footer-content span {
+            color: #888888 !important;
+            font-size: 10px;
+        }
+
+
+        .auth-footer-links {
+            display: flex;
+            gap: 22px;
+        }
+
+
+        .auth-footer-links a {
+            color: #999999 !important;
+            text-decoration: none !important;
+            font-size: 11px;
+        }
+
+
+        .auth-footer-links a:hover {
+            color: #ff5a1f !important;
+        }
+
+
+        .auth-footer-copy {
+            font-size: 10px;
+            color: #777777 !important;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .auth-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 560px;
+            }
+
+            .auth-showcase {
+                display: none;
+            }
+
+            .auth-form-section {
+                padding: 45px 35px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .professional-auth-navbar {
+                height: 64px;
+            }
+
+            .auth-brand {
+                font-size: 20px;
+            }
+
+            .auth-brand-icon {
+                width: 34px;
+                height: 34px;
+                font-size: 16px;
+            }
+
+            .auth-home-link {
+                padding: 8px 11px;
+            }
+
+            .auth-home-link span {
+                display: none;
+            }
+
+            .professional-auth-main {
+                min-height: calc(100vh - 64px);
+                padding: 25px 14px;
+            }
+
+            .auth-wrapper {
+                border-radius: 15px;
+            }
+
+            .auth-form-section {
+                padding: 35px 22px;
+            }
+
+            .professional-auth-card h2 {
+                font-size: 25px;
+            }
+
+            .professional-auth-footer {
+                padding: 20px 0;
+            }
+
+            .auth-footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .auth-footer-links {
+                justify-content: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="professional-auth-navbar">
+
+    <div class="container">
+
+        <a href="/" class="auth-brand">
+
+            <span class="auth-brand-icon">
+                <i class="bi bi-cart-check-fill"></i>
+            </span>
+
+            <span>
+                Click<span class="auth-brand-orange">N</span>Shop
+            </span>
+
+        </a>
+
+
+        <a href="/" class="auth-home-link">
+
+            <i class="bi bi-house"></i>
+
+            <span>Home</span>
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="professional-auth-main">
+
+    <div class="auth-wrapper">
+
+
+        <!-- LEFT SIDE -->
+
+        <div class="auth-showcase">
+
+            <div class="showcase-content">
+
+                <span class="showcase-badge">
+
+                    <i class="bi bi-stars"></i>
+
+                    Welcome to ClickNShop
+
+                </span>
+
+
+                <h1>
+
+                    Shop smarter.
+                    <br>
+
+                    <span>Live better.</span>
+
+                </h1>
+
+
+                <p class="showcase-description">
+
+                    Discover amazing products, great deals and a
+                    seamless shopping experience — all in one place.
+
+                </p>
+
+
+                <div class="showcase-features">
+
+
+                    <div class="showcase-feature">
+
+                        <div class="feature-icon">
+
+                            <i class="bi bi-lightning-charge-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Great Deals</strong>
+
+                            <small>
+                                Save more on every purchase
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="showcase-feature">
+
+                        <div class="feature-icon">
+
+                            <i class="bi bi-shield-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Secure Shopping</strong>
+
+                            <small>
+                                Your account stays protected
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="showcase-feature">
+
+                        <div class="feature-icon">
+
+                            <i class="bi bi-truck"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Easy Ordering</strong>
+
+                            <small>
+                                Simple and convenient checkout
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="auth-form-section">
+
+            <div class="professional-auth-card">
+
+
+                <div class="professional-auth-icon">
+
+                    <i class="bi bi-person-fill"></i>
+
+                </div>
+
+
+                <h2>
+                    Welcome Back
+                </h2>
+
+
+                <p class="professional-auth-subtitle">
+
+                    Sign in to continue shopping
+
+                </p>
+
+
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div class="alert alert-{{ message.tags }} professional-alert">
+
+                            <i class="bi bi-info-circle me-2"></i>
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- USERNAME -->
+
+                    <div class="professional-form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+
+                        <div class="professional-input">
+
+                            <i class="bi bi-person"></i>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="professional-form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+
+                        <div class="professional-input">
+
+                            <i class="bi bi-lock"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword()"
+                                aria-label="Show password">
+
+                                <i class="bi bi-eye"
+                                   id="passwordIcon"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- LOGIN -->
+
+                    <button
+                        type="submit"
+                        class="professional-login-btn">
+
+                        <span>
+                            Sign In
+                        </span>
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+
+                <div class="professional-auth-divider">
+
+                    <span>
+                        New to ClickNShop?
+                    </span>
+
+                </div>
+
+
+                <a href="{% url 'register' %}"
+                   class="professional-register-btn">
+
+                    <i class="bi bi-person-plus"></i>
+
+                    Create a new account
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="professional-auth-footer">
+
+    <div class="container">
+
+        <div class="auth-footer-content">
+
+
+            <div>
+
+                <strong>
+
+                    <i class="bi bi-cart-check-fill"></i>
+
+                    ClickNShop
+
+                </strong>
+
+                <span>
+                    Your one-stop destination for online shopping.
+                </span>
+
+            </div>
+
+
+            <div class="auth-footer-links">
+
+                <a href="/">
+                    Home
+                </a>
+
+                <a href="{% url 'register' %}">
+                    Create Account
+                </a>
+
+            </div>
+
+
+            <div class="auth-footer-copy">
+
+                © 2026 ClickNShop
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+function togglePassword() {
+
+    const password = document.getElementById("password");
+
+    const icon = document.getElementById("passwordIcon");
+
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        icon.classList.remove("bi-eye");
+
+        icon.classList.add("bi-eye-slash");
+
+    }
+
+    else {
+
+        password.type = "password";
+
+        icon.classList.remove("bi-eye-slash");
+
+        icon.classList.add("bi-eye");
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

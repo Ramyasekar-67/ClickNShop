@@ -1,0 +1,2301 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ClickNShop - Online Shopping</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- ClickNShop CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-expand-lg main-navbar sticky-top">
+
+    <div class="container">
+
+        <!-- Logo -->
+
+        <a class="navbar-brand" href="{% url 'home' %}">
+
+            <span class="brand-icon">
+                <i class="bi bi-bag-check-fill"></i>
+            </span>
+
+            <span>
+                Click<span>N</span>Shop
+            </span>
+
+        </a>
+
+
+        <!-- Mobile Button -->
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+
+            <i class="bi bi-list"></i>
+
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+
+
+            <!-- Search -->
+
+            <form
+                method="GET"
+                action="{% url 'home' %}"
+                class="search-form mx-lg-auto">
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ search }}"
+                        class="form-control"
+                        placeholder="Search for products, brands and more...">
+
+
+                    {% if selected_category %}
+
+                        <input
+                            type="hidden"
+                            name="category"
+                            value="{{ selected_category }}">
+
+                    {% endif %}
+
+
+                    {% if selected_sort %}
+
+                        <input
+                            type="hidden"
+                            name="sort"
+                            value="{{ selected_sort }}">
+
+                    {% endif %}
+
+
+                    <button
+                        type="submit"
+                        class="search-btn">
+
+                        <i class="bi bi-search"></i>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <!-- Navigation -->
+
+            <ul class="navbar-nav align-items-lg-center ms-lg-auto">
+
+
+                <!-- Home -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'home' %}">
+
+                        <i class="bi bi-house-door"></i>
+                        Home
+
+                    </a>
+
+                </li>
+
+
+                {% if user.is_authenticated %}
+
+
+                    <!-- Wishlist -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'wishlist' %}">
+
+                            <i class="bi bi-heart"></i>
+                            Wishlist
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Cart -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'cart' %}">
+
+                            <i class="bi bi-cart3"></i>
+                            Cart
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Orders -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'my_orders' %}">
+
+                            <i class="bi bi-box-seam"></i>
+                            Orders
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Logout -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link logout-link"
+                            href="{% url 'logout' %}">
+
+                            <i class="bi bi-box-arrow-right"></i>
+                            Logout
+
+                        </a>
+
+                    </li>
+
+
+                {% else %}
+
+
+                    <!-- Login -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'login' %}">
+
+                            <i class="bi bi-person"></i>
+                            Login
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Register -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link register-nav"
+                            href="{% url 'register' %}">
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     CATEGORY NAVIGATION
+========================================================= -->
+
+<section class="category-navigation">
+
+    <div class="container">
+
+        <div class="category-navigation-inner">
+
+
+            <!-- All -->
+
+            <a
+                href="{% url 'home' %}"
+                class="category-nav-item">
+
+                <i class="bi bi-grid-fill"></i>
+
+                <span>All</span>
+
+            </a>
+
+
+            {% for category_value, category_name in categories %}
+
+                <a
+                    href="{% url 'home' %}?category={{ category_value }}"
+                    class="category-nav-item {% if selected_category == category_value %}active{% endif %}">
+
+
+                    {% if category_value == 'Mobiles' %}
+
+                        <i class="bi bi-phone"></i>
+
+
+                    {% elif category_value == 'Electronics' %}
+
+                        <i class="bi bi-laptop"></i>
+
+
+                    {% elif category_value == 'Fashion' %}
+
+                        <i class="bi bi-bag"></i>
+
+
+                    {% elif category_value == 'Home' %}
+
+                        <i class="bi bi-house"></i>
+
+
+                    {% elif category_value == 'Books' %}
+
+                        <i class="bi bi-book"></i>
+
+
+                    {% elif category_value == 'Accessories' %}
+
+                        <i class="bi bi-headphones"></i>
+
+
+                    {% elif category_value == 'Sports' %}
+
+                        <i class="bi bi-dribbble"></i>
+
+
+                    {% else %}
+
+                        <i class="bi bi-box"></i>
+
+                    {% endif %}
+
+
+                    <span>
+                        {{ category_name }}
+                    </span>
+
+                </a>
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     HERO SLIDER
+========================================================= -->
+
+<section class="hero-slider-section">
+
+    <div class="container">
+
+        <div
+            id="clicknshopHero"
+            class="carousel slide hero-carousel"
+            data-bs-ride="carousel">
+
+
+            <!-- Indicators -->
+
+            <div class="carousel-indicators">
+
+                <button
+                    type="button"
+                    data-bs-target="#clicknshopHero"
+                    data-bs-slide-to="0"
+                    class="active"
+                    aria-current="true">
+                </button>
+
+                <button
+                    type="button"
+                    data-bs-target="#clicknshopHero"
+                    data-bs-slide-to="1">
+                </button>
+
+                <button
+                    type="button"
+                    data-bs-target="#clicknshopHero"
+                    data-bs-slide-to="2">
+                </button>
+
+            </div>
+
+
+
+            <!-- Slides -->
+
+            <div class="carousel-inner">
+
+
+                <!-- Slide 1 -->
+
+                <div class="carousel-item active">
+
+                    <div class="hero-slide hero-slide-one">
+
+                        <div class="hero-content">
+
+                            <span class="hero-label">
+
+                                <i class="bi bi-lightning-fill"></i>
+
+                                LIMITED TIME OFFER
+
+                            </span>
+
+
+                            <h1>
+
+                                Shop Smart.<br>
+                                Live Better.
+
+                            </h1>
+
+
+                            <p>
+
+                                Discover amazing products at prices you'll love.
+                                Your everyday shopping destination.
+
+                            </p>
+
+
+                            <a
+                                href="#products"
+                                class="hero-btn">
+
+                                Shop Now
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="hero-visual">
+
+                            <div class="hero-icon-circle">
+
+                                <i class="bi bi-bag-heart-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Slide 2 -->
+
+                <div class="carousel-item">
+
+                    <div class="hero-slide hero-slide-two">
+
+                        <div class="hero-content">
+
+                            <span class="hero-label">
+
+                                <i class="bi bi-stars"></i>
+
+                                NEW ARRIVALS
+
+                            </span>
+
+
+                            <h1>
+
+                                Fresh Finds.<br>
+                                Great Prices.
+
+                            </h1>
+
+
+                            <p>
+
+                                Explore our latest collection of products
+                                carefully selected for you.
+
+                            </p>
+
+
+                            <a
+                                href="#categories"
+                                class="hero-btn">
+
+                                Explore Now
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="hero-visual">
+
+                            <div class="hero-icon-circle">
+
+                                <i class="bi bi-stars"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Slide 3 -->
+
+                <div class="carousel-item">
+
+                    <div class="hero-slide hero-slide-three">
+
+                        <div class="hero-content">
+
+                            <span class="hero-label">
+
+                                <i class="bi bi-percent"></i>
+
+                                BEST DEALS
+
+                            </span>
+
+
+                            <h1>
+
+                                More Savings.<br>
+                                More Shopping.
+
+                            </h1>
+
+
+                            <p>
+
+                                Grab exciting deals and make every purchase
+                                worth it.
+
+                            </p>
+
+
+                            <a
+                                href="#deals"
+                                class="hero-btn">
+
+                                View Deals
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="hero-visual">
+
+                            <div class="hero-icon-circle">
+
+                                <i class="bi bi-tag-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Previous -->
+
+            <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#clicknshopHero"
+                data-bs-slide="prev">
+
+                <span class="hero-control">
+
+                    <i class="bi bi-chevron-left"></i>
+
+                </span>
+
+            </button>
+
+
+            <!-- Next -->
+
+            <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#clicknshopHero"
+                data-bs-slide="next">
+
+                <span class="hero-control">
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </span>
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SHOP BY CATEGORY
+========================================================= -->
+
+<section
+    class="category-section"
+    id="categories">
+
+    <div class="container">
+
+
+        <div class="section-heading-row">
+
+            <div>
+
+                <span class="section-small-title">
+                    EXPLORE
+                </span>
+
+                <h2 class="section-heading">
+                    Shop by Category
+                </h2>
+
+                <p class="section-description">
+                    Find everything you need in one place.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'home' %}"
+                class="view-all">
+
+                View All
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+
+        <div class="category-cards">
+
+
+            {% for category_value, category_name in categories %}
+
+                <a
+                    href="{% url 'home' %}?category={{ category_value }}"
+                    class="category-card">
+
+
+                    <div class="category-card-icon">
+
+
+                        {% if category_value == 'Mobiles' %}
+
+                            <i class="bi bi-phone-fill"></i>
+
+
+                        {% elif category_value == 'Electronics' %}
+
+                            <i class="bi bi-laptop-fill"></i>
+
+
+                        {% elif category_value == 'Fashion' %}
+
+                            <i class="bi bi-bag-fill"></i>
+
+
+                        {% elif category_value == 'Home' %}
+
+                            <i class="bi bi-house-fill"></i>
+
+
+                        {% elif category_value == 'Books' %}
+
+                            <i class="bi bi-book-fill"></i>
+
+
+                        {% elif category_value == 'Accessories' %}
+
+                            <i class="bi bi-headphones"></i>
+
+
+                        {% elif category_value == 'Sports' %}
+
+                            <i class="bi bi-dribbble"></i>
+
+
+                        {% else %}
+
+                            <i class="bi bi-box-seam-fill"></i>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                    <h5>
+                        {{ category_name }}
+                    </h5>
+
+
+                    <span>
+
+                        Explore
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </span>
+
+
+                </a>
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FLASH DEALS
+========================================================= -->
+
+<section
+    class="deals-section"
+    id="deals">
+
+    <div class="container">
+
+
+        <div class="section-heading-row">
+
+            <div>
+
+                <span class="section-small-title deal-title">
+
+                    <i class="bi bi-lightning-fill"></i>
+
+                    LIMITED TIME
+
+                </span>
+
+
+                <h2 class="section-heading">
+                    Flash Deals
+                </h2>
+
+
+                <p class="section-description">
+
+                    Grab your favourites before the deals disappear.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="deal-banner">
+
+
+            <div class="deal-banner-content">
+
+
+                <span class="deal-banner-label">
+                    TODAY'S SPECIAL
+                </span>
+
+
+                <h3>
+
+                    Amazing Products.<br>
+                    Amazing Prices.
+
+                </h3>
+
+
+                <p>
+
+                    Discover selected products at exciting prices.
+
+                </p>
+
+
+                <a
+                    href="#products"
+                    class="deal-banner-btn">
+
+                    Shop Deals
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+
+            </div>
+
+
+            <div class="deal-banner-icon">
+
+                <i class="bi bi-lightning-charge-fill"></i>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PRODUCTS
+========================================================= -->
+
+<section
+    class="products-section"
+    id="products">
+
+    <div class="container">
+
+
+        <!-- Heading -->
+
+        <div class="section-heading-row">
+
+
+            <div>
+
+                <span class="section-small-title">
+                    OUR COLLECTION
+                </span>
+
+
+                <h2 class="section-heading">
+
+
+                    {% if search %}
+
+                        Search Results
+
+
+                    {% elif selected_category %}
+
+                        {{ selected_category }}
+
+
+                    {% else %}
+
+                        Featured Products
+
+                    {% endif %}
+
+
+                </h2>
+
+
+                <p class="section-description">
+
+
+                    {% if search %}
+
+                        Products matching "{{ search }}"
+
+
+                    {% elif selected_category %}
+
+                        Explore products from {{ selected_category }}
+
+
+                    {% else %}
+
+                        Handpicked products for your everyday needs.
+
+                    {% endif %}
+
+
+                </p>
+
+            </div>
+
+
+
+            <!-- Sort -->
+
+            <div class="product-controls">
+
+                <form
+                    method="GET"
+                    action="{% url 'home' %}"
+                    class="sort-form">
+
+
+                    {% if search %}
+
+                        <input
+                            type="hidden"
+                            name="search"
+                            value="{{ search }}">
+
+                    {% endif %}
+
+
+                    {% if selected_category %}
+
+                        <input
+                            type="hidden"
+                            name="category"
+                            value="{{ selected_category }}">
+
+                    {% endif %}
+
+
+                    <label for="sort">
+
+                        <i class="bi bi-filter"></i>
+
+                        Sort
+
+                    </label>
+
+
+                    <select
+                        name="sort"
+                        id="sort"
+                        class="sort-select"
+                        onchange="this.form.submit()">
+
+
+                        <option value="">
+                            Recommended
+                        </option>
+
+
+                        <option
+                            value="newest"
+                            {% if selected_sort == 'newest' %}selected{% endif %}>
+
+                            Newest
+
+                        </option>
+
+
+                        <option
+                            value="price_low"
+                            {% if selected_sort == 'price_low' %}selected{% endif %}>
+
+                            Price: Low to High
+
+                        </option>
+
+
+                        <option
+                            value="price_high"
+                            {% if selected_sort == 'price_high' %}selected{% endif %}>
+
+                            Price: High to Low
+
+                        </option>
+
+
+                        <option
+                            value="name"
+                            {% if selected_sort == 'name' %}selected{% endif %}>
+
+                            Name: A to Z
+
+                        </option>
+
+
+                    </select>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Product Grid -->
+
+        <div class="row g-4">
+
+
+            {% for product in products %}
+
+
+                <div class="col-12 col-sm-6 col-lg-4">
+
+
+                    <div class="product-card">
+
+
+                        <!-- Image -->
+
+                        <div class="product-image">
+
+
+                            <!-- Product Image -->
+
+                            <a
+                                href="{% url 'product_detail' product.id %}"
+                                class="product-card-link">
+
+
+                                {% if product.image %}
+
+                                    <img
+                                        src="{{ product.image.url }}"
+                                        alt="{{ product.name }}"
+                                        class="product-img">
+
+
+                                {% else %}
+
+                                    <div class="product-placeholder">
+
+                                        <i class="bi bi-image"></i>
+
+                                        <span>
+                                            No Image
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                            </a>
+
+
+
+                            <!-- Discount -->
+
+                            {% if product.discount > 0 %}
+
+                                <span class="discount-badge">
+
+                                    {{ product.discount }}% OFF
+
+                                </span>
+
+                            {% endif %}
+
+
+
+                            <!-- Featured -->
+
+                            {% if product.featured %}
+
+                                <span class="featured-badge">
+
+                                    <i class="bi bi-star-fill"></i>
+
+                                    Featured
+
+                                </span>
+
+                            {% endif %}
+
+
+
+                            <!-- Wishlist -->
+
+                            {% if user.is_authenticated %}
+
+                                <a
+                                    href="{% url 'add_to_wishlist' product.id %}"
+                                    class="wishlist-btn"
+                                    title="Add to Wishlist">
+
+
+                                    {% if product.id in wishlist_product_ids %}
+
+                                        <i class="bi bi-heart-fill"></i>
+
+                                    {% else %}
+
+                                        <i class="bi bi-heart"></i>
+
+                                    {% endif %}
+
+
+                                </a>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <!-- Product Info -->
+
+                        <a
+                            href="{% url 'product_detail' product.id %}"
+                            class="product-card-link">
+
+
+                            <div class="product-info">
+
+
+                                <!-- Category -->
+
+                                <span class="product-category">
+
+                                    {{ product.category }}
+
+                                </span>
+
+
+
+                                <!-- Name -->
+
+                                <h3 class="product-name">
+
+                                    {{ product.name }}
+
+                                </h3>
+
+
+
+                                <!-- Rating -->
+
+                                <div class="rating">
+
+
+                                    <span class="rating-stars">
+
+
+                                        {% if product.rating >= 4.5 %}
+
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+
+
+                                        {% elif product.rating >= 4 %}
+
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star"></i>
+
+
+                                        {% elif product.rating >= 3 %}
+
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+
+
+                                        {% else %}
+
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+
+                                        {% endif %}
+
+
+                                    </span>
+
+
+                                    <span class="rating-number">
+
+                                        {{ product.rating }}
+
+                                    </span>
+
+
+                                </div>
+
+
+
+                                <!-- Price -->
+
+                                <div class="price-area">
+
+
+                                    <span class="product-price">
+
+                                        ₹{{ product.price }}
+
+                                    </span>
+
+
+                                    {% if product.original_price %}
+
+                                        <span class="original-price">
+
+                                            ₹{{ product.original_price }}
+
+                                        </span>
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+
+                                <!-- Stock -->
+
+                                {% if product.stock > 0 %}
+
+                                    <span class="stock-label available">
+
+                                        <i class="bi bi-check-circle-fill"></i>
+
+                                        In Stock
+
+                                    </span>
+
+
+                                {% else %}
+
+                                    <span class="stock-label unavailable">
+
+                                        <i class="bi bi-x-circle-fill"></i>
+
+                                        Out of Stock
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                        </a>
+
+
+
+                        <!-- Add to Cart -->
+
+
+                        {% if product.stock > 0 %}
+
+
+                            {% if user.is_authenticated %}
+
+
+                                <a
+                                    href="{% url 'add_to_cart' product.id %}"
+                                    class="add-cart-btn">
+
+                                    <i class="bi bi-cart-plus"></i>
+
+                                    Add to Cart
+
+                                </a>
+
+
+                            {% else %}
+
+
+                                <a
+                                    href="{% url 'login' %}"
+                                    class="add-cart-btn">
+
+                                    <i class="bi bi-cart-plus"></i>
+
+                                    Add to Cart
+
+                                </a>
+
+
+                            {% endif %}
+
+
+                        {% else %}
+
+
+                            <button
+                                class="add-cart-btn disabled"
+                                disabled>
+
+                                <i class="bi bi-x-circle"></i>
+
+                                Out of Stock
+
+                            </button>
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+            {% empty %}
+
+
+                <!-- Empty Products -->
+
+                <div class="col-12">
+
+
+                    <div class="empty-products">
+
+
+                        <div class="empty-products-icon">
+
+                            <i class="bi bi-search"></i>
+
+                        </div>
+
+
+                        <h3>
+                            No Products Found
+                        </h3>
+
+
+                        <p>
+
+                            We couldn't find any products matching your search.
+
+                        </p>
+
+
+                        <a
+                            href="{% url 'home' %}"
+                            class="empty-products-btn">
+
+                            <i class="bi bi-arrow-left"></i>
+
+                            View All Products
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+
+        <!-- =====================================================
+             PAGINATION
+        ====================================================== -->
+
+
+        {% if products.has_other_pages %}
+
+
+            <div class="pagination-wrapper">
+
+
+                <nav aria-label="Product pagination">
+
+
+                    <ul class="pagination custom-pagination">
+
+
+                        <!-- Previous -->
+
+
+                        {% if products.has_previous %}
+
+
+                            <li class="page-item">
+
+
+                                <a
+                                    class="page-link"
+                                    href="?page={{ products.previous_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_category %}&category={{ selected_category|urlencode }}{% endif %}{% if selected_sort %}&sort={{ selected_sort|urlencode }}{% endif %}">
+
+                                    <i class="bi bi-chevron-left"></i>
+
+                                </a>
+
+
+                            </li>
+
+
+                        {% else %}
+
+
+                            <li class="page-item disabled">
+
+
+                                <span class="page-link">
+
+                                    <i class="bi bi-chevron-left"></i>
+
+                                </span>
+
+
+                            </li>
+
+
+                        {% endif %}
+
+
+
+                        <!-- Page Numbers -->
+
+
+                        {% for page_num in products.paginator.page_range %}
+
+
+                            {% if products.number == page_num %}
+
+
+                                <li class="page-item active">
+
+
+                                    <span class="page-link">
+
+                                        {{ page_num }}
+
+                                    </span>
+
+
+                                </li>
+
+
+                            {% else %}
+
+
+                                <li class="page-item">
+
+
+                                    <a
+                                        class="page-link"
+                                        href="?page={{ page_num }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_category %}&category={{ selected_category|urlencode }}{% endif %}{% if selected_sort %}&sort={{ selected_sort|urlencode }}{% endif %}">
+
+                                        {{ page_num }}
+
+                                    </a>
+
+
+                                </li>
+
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+
+
+                        <!-- Next -->
+
+
+                        {% if products.has_next %}
+
+
+                            <li class="page-item">
+
+
+                                <a
+                                    class="page-link"
+                                    href="?page={{ products.next_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_category %}&category={{ selected_category|urlencode }}{% endif %}{% if selected_sort %}&sort={{ selected_sort|urlencode }}{% endif %}">
+
+                                    <i class="bi bi-chevron-right"></i>
+
+                                </a>
+
+
+                            </li>
+
+
+                        {% else %}
+
+
+                            <li class="page-item disabled">
+
+
+                                <span class="page-link">
+
+                                    <i class="bi bi-chevron-right"></i>
+
+                                </span>
+
+
+                            </li>
+
+
+                        {% endif %}
+
+
+                    </ul>
+
+
+                </nav>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROMOTIONAL BANNERS
+========================================================= -->
+
+<section class="promo-section">
+
+    <div class="container">
+
+
+        <div class="row g-4">
+
+
+            <!-- Banner 1 -->
+
+            <div class="col-12 col-lg-6">
+
+
+                <div class="promo-banner promo-banner-one">
+
+
+                    <div class="promo-content">
+
+
+                        <span>
+                            SMART SHOPPING
+                        </span>
+
+
+                        <h3>
+
+                            Great Products.<br>
+                            Better Prices.
+
+                        </h3>
+
+
+                        <p>
+
+                            Find products that fit your lifestyle.
+
+                        </p>
+
+
+                        <a href="#products">
+
+                            Explore Now
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+
+                    </div>
+
+
+                    <div class="promo-icon">
+
+                        <i class="bi bi-bag-heart-fill"></i>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Banner 2 -->
+
+            <div class="col-12 col-lg-6">
+
+
+                <div class="promo-banner promo-banner-two">
+
+
+                    <div class="promo-content">
+
+
+                        <span>
+                            CLICK & SAVE
+                        </span>
+
+
+                        <h3>
+
+                            Your Cart.<br>
+                            Your Choice.
+
+                        </h3>
+
+
+                        <p>
+
+                            Shop your favourites anytime, anywhere.
+
+                        </p>
+
+
+                        <a href="{% url 'cart' %}">
+
+                            View Cart
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+
+                    </div>
+
+
+                    <div class="promo-icon">
+
+                        <i class="bi bi-cart-check-fill"></i>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     WHY SHOP WITH US
+========================================================= -->
+
+<section class="features-section">
+
+    <div class="container">
+
+
+        <div class="features-heading">
+
+
+            <span class="section-small-title">
+
+                SHOP WITH CONFIDENCE
+
+            </span>
+
+
+            <h2 class="section-heading">
+
+                Why Shop With ClickNShop?
+
+            </h2>
+
+
+            <p class="section-description">
+
+                We make online shopping simple, convenient and enjoyable.
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="row g-4">
+
+
+            <!-- Feature 1 -->
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+
+                <div class="feature-box">
+
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-truck"></i>
+
+                    </div>
+
+
+                    <h4>
+
+                        Fast Delivery
+
+                    </h4>
+
+
+                    <p>
+
+                        Get your orders delivered quickly and safely.
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Feature 2 -->
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+
+                <div class="feature-box">
+
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+
+                    <h4>
+
+                        Secure Shopping
+
+                    </h4>
+
+
+                    <p>
+
+                        Your shopping experience is protected and secure.
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Feature 3 -->
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+
+                <div class="feature-box">
+
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-tags"></i>
+
+                    </div>
+
+
+                    <h4>
+
+                        Best Deals
+
+                    </h4>
+
+
+                    <p>
+
+                        Discover exciting prices and offers every day.
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Feature 4 -->
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+
+                <div class="feature-box">
+
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-headset"></i>
+
+                    </div>
+
+
+                    <h4>
+
+                        Easy Support
+
+                    </h4>
+
+
+                    <p>
+
+                        We're here to make your shopping experience easier.
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+
+    <div class="container">
+
+
+        <div class="row g-5">
+
+
+            <!-- Brand -->
+
+            <div class="col-12 col-lg-4">
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="footer-brand">
+
+
+                    <span class="footer-brand-icon">
+
+                        <i class="bi bi-bag-check-fill"></i>
+
+                    </span>
+
+
+                    Click<span>N</span>Shop
+
+
+                </a>
+
+
+                <p class="footer-description">
+
+                    Your modern online shopping destination for quality
+                    products, exciting deals and a simple shopping experience.
+
+                </p>
+
+
+                <div class="footer-social">
+
+
+                    <a
+                        href="#"
+                        aria-label="Facebook">
+
+                        <i class="bi bi-facebook"></i>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        aria-label="Instagram">
+
+                        <i class="bi bi-instagram"></i>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        aria-label="Twitter">
+
+                        <i class="bi bi-twitter-x"></i>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        aria-label="LinkedIn">
+
+                        <i class="bi bi-linkedin"></i>
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Quick Links -->
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+
+                <h5 class="footer-title">
+
+                    Quick Links
+
+                </h5>
+
+
+                <ul class="footer-links">
+
+
+                    <li>
+
+                        <a href="{% url 'home' %}">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="#products">
+
+                            Products
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="#categories">
+
+                            Categories
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="#deals">
+
+                            Deals
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+
+            </div>
+
+
+
+            <!-- Customer -->
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+
+                <h5 class="footer-title">
+
+                    Customer
+
+                </h5>
+
+
+                <ul class="footer-links">
+
+
+                    {% if user.is_authenticated %}
+
+
+                        <li>
+
+                            <a href="{% url 'wishlist' %}">
+
+                                My Wishlist
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="{% url 'cart' %}">
+
+                                My Cart
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="{% url 'my_orders' %}">
+
+                                My Orders
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="{% url 'logout' %}">
+
+                                Logout
+
+                            </a>
+
+                        </li>
+
+
+                    {% else %}
+
+
+                        <li>
+
+                            <a href="{% url 'login' %}">
+
+                                Login
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="{% url 'register' %}">
+
+                                Register
+
+                            </a>
+
+                        </li>
+
+
+                    {% endif %}
+
+
+                </ul>
+
+
+            </div>
+
+
+
+            <!-- Categories -->
+
+            <div class="col-12 col-md-4 col-lg-2">
+
+
+                <h5 class="footer-title">
+
+                    Categories
+
+                </h5>
+
+
+                <ul class="footer-links">
+
+
+                    {% for category_value, category_name in categories|slice:":5" %}
+
+
+                        <li>
+
+                            <a
+                                href="{% url 'home' %}?category={{ category_value }}">
+
+                                {{ category_name }}
+
+                            </a>
+
+                        </li>
+
+
+                    {% endfor %}
+
+
+                </ul>
+
+
+            </div>
+
+
+
+            <!-- Contact -->
+
+            <div class="col-12 col-lg-2">
+
+
+                <h5 class="footer-title">
+
+                    Contact
+
+                </h5>
+
+
+                <ul class="footer-contact">
+
+
+                    <li>
+
+                        <i class="bi bi-envelope"></i>
+
+                        <span>
+
+                            support@clicknshop.com
+
+                        </span>
+
+                    </li>
+
+
+                    <li>
+
+                        <i class="bi bi-telephone"></i>
+
+                        <span>
+
+                            +91 98765 43210
+
+                        </span>
+
+                    </li>
+
+
+                    <li>
+
+                        <i class="bi bi-clock"></i>
+
+                        <span>
+
+                            Mon - Sat
+
+                        </span>
+
+                    </li>
+
+
+                </ul>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Footer Bottom -->
+
+        <div class="footer-bottom">
+
+
+            <p>
+
+                © 2026 ClickNShop. All rights reserved.
+
+            </p>
+
+
+            <div class="footer-bottom-links">
+
+
+                <a href="#">
+
+                    Privacy Policy
+
+                </a>
+
+
+                <a href="#">
+
+                    Terms & Conditions
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</footer>
+
+
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>
