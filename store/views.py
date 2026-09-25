@@ -470,7 +470,7 @@ def checkout(request):
             razorpay_order = client.order.create({
                 'amount': int(total * 100),
                 'currency': 'INR',
-                'receipt': f'clicknshop_{request.user.id}',
+                'receipt': f'clicknshop_{request.user.id}_{int(total * 100)}',
             })
 
             order = Order.objects.create(
