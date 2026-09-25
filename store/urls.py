@@ -12,6 +12,7 @@ from .views import (
     decrease_quantity,
     remove_from_cart,
     checkout,
+    verify_payment,
     my_orders,
     add_to_wishlist,
     wishlist,
@@ -85,6 +86,12 @@ urlpatterns = [
         'checkout/',
         checkout,
         name='checkout'
+    ),
+
+    path(
+        'verify-payment/',
+        verify_payment,
+        name='verify_payment'
     ),
 
     path(

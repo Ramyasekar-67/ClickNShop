@@ -1,4 +1,6 @@
+import razorpay
 from django.shortcuts import render, get_object_or_404, redirect
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -397,7 +399,6 @@ def checkout(request):
             request,
             'Your cart is empty.'
         )
-
         return redirect('cart')
 
     total = sum(
@@ -412,14 +413,65 @@ def checkout(request):
         if form.is_valid():
 
             for item in cart_items:
-
                 if item.quantity > item.product.stock:
                     messages.error(
                         request,
                         f'Not enough stock for {item.product.name}.'
                     )
-
                     return redirect('cart')
+
+            payment_method = form.cleaned_data['payment_method']
+
+            # COD
+            if payment_method == 'COD':
+
+                order = Order.objects.create(
+                    user=request.user,
+                    full_name=form.cleaned_data['full_name'],
+                    phone=form.cleaned_data['phone'],
+                    address=form.cleaned_data['address'],
+                    city=form.cleaned_data['city'],
+                    state=form.cleaned_data['state'],
+                    pincode=form.cleaned_data['pincode'],
+                    payment_method=payment_method,
+                    payment_status='COD',
+                    total_amount=total,
+                )
+
+                for item in cart_items:
+
+                    OrderItem.objects.create(
+                        order=order,
+                        product=item.product,
+                        quantity=item.quantity,
+                        price=item.product.price,
+                    )
+
+                    item.product.stock -= item.quantity
+                    item.product.save()
+
+                cart_items.delete()
+
+                messages.success(
+                    request,
+                    'Your order has been placed successfully!'
+                )
+
+                return redirect('home')
+
+            # Razorpay
+            client = razorpay.Client(
+                auth=(
+                    settings.RAZORPAY_KEY_ID,
+                    settings.RAZORPAY_KEY_SECRET
+                )
+            )
+
+            razorpay_order = client.order.create({
+                'amount': int(total * 100),
+                'currency': 'INR',
+                'receipt': f'clicknshop_{request.user.id}',
+            })
 
             order = Order.objects.create(
                 user=request.user,
@@ -429,12 +481,13 @@ def checkout(request):
                 city=form.cleaned_data['city'],
                 state=form.cleaned_data['state'],
                 pincode=form.cleaned_data['pincode'],
-                payment_method=form.cleaned_data['payment_method'],
+                payment_method=payment_method,
+                payment_status='Pending',
+                razorpay_order_id=razorpay_order['id'],
                 total_amount=total,
             )
 
             for item in cart_items:
-
                 OrderItem.objects.create(
                     order=order,
                     product=item.product,
@@ -442,17 +495,14 @@ def checkout(request):
                     price=item.product.price,
                 )
 
-                item.product.stock -= item.quantity
-                item.product.save()
-
-            cart_items.delete()
-
-            messages.success(
-                request,
-                'Your order has been placed successfully!'
-            )
-
-            return redirect('home')
+            return render(request, 'store/checkout.html', {
+                'form': form,
+                'cart_items': cart_items,
+                'total': total,
+                'razorpay_order_id': razorpay_order['id'],
+                'razorpay_key_id': settings.RAZORPAY_KEY_ID,
+                'order_id': order.id,
+            })
 
     else:
         form = CheckoutForm()
@@ -534,3 +584,60 @@ def wishlist(request):
     return render(request, 'store/wishlist.html', {
         'wishlist_items': wishlist_items
     })
+
+
+@login_required
+def verify_payment(request):
+    if request.method == 'POST':
+
+        razorpay_order_id = request.POST.get('razorpay_order_id')
+        razorpay_payment_id = request.POST.get('razorpay_payment_id')
+        razorpay_signature = request.POST.get('razorpay_signature')
+
+        try:
+            client = razorpay.Client(
+                auth=(
+                    settings.RAZORPAY_KEY_ID,
+                    settings.RAZORPAY_KEY_SECRET
+                )
+            )
+
+            client.utility.verify_payment_signature({
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': razorpay_payment_id,
+                'razorpay_signature': razorpay_signature
+            })
+
+            order = Order.objects.get(
+                razorpay_order_id=razorpay_order_id,
+                user=request.user
+            )
+
+            order.razorpay_payment_id = razorpay_payment_id
+            order.payment_status = 'Paid'
+            order.status = 'Processing'
+            order.save()
+
+            for item in order.items.all():
+                item.product.stock -= item.quantity
+                item.product.save()
+
+            CartItem.objects.filter(
+                user=request.user
+            ).delete()
+
+            messages.success(
+                request,
+                'Payment successful! Your order has been placed.'
+            )
+
+            return redirect('my_orders')
+
+        except Exception:
+            messages.error(
+                request,
+                'Payment verification failed.'
+            )
+            return redirect('checkout')
+
+    return redirect('checkout')

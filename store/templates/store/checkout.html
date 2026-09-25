@@ -1310,6 +1310,67 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
 </script>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    {% if razorpay_order_id %}
+
+    const options = {
+        key: "{{ razorpay_key_id }}",
+        amount: "{{ total|floatformat:0 }}00",
+        currency: "INR",
+        name: "ClickNShop",
+        description: "Order Payment",
+        order_id: "{{ razorpay_order_id }}",
+
+        handler: function (response) {
+
+    const formData = new FormData();
+
+    formData.append(
+        "razorpay_order_id",
+        response.razorpay_order_id
+    );
+
+    formData.append(
+        "razorpay_payment_id",
+        response.razorpay_payment_id
+    );
+
+    formData.append(
+        "razorpay_signature",
+        response.razorpay_signature
+    );
+
+    fetch("{% url 'verify_payment' %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.open();
+        document.write(data);
+        document.close();
+    })
+    .catch(error => {
+        console.error("Payment verification error:", error);
+        alert("Payment verification failed.");
+    });
+},
+
+        theme: {
+            color: "#FF5A1F"
+        }
+    };
+
+    const razorpay = new Razorpay(options);
+    razorpay.open();
+
+    {% endif %}
+</script>
 
 </body>
 

@@ -10,6 +10,7 @@ import os
 from dotenv import load_dotenv
 import cloudinary
 import dj_database_url
+import razorpay
 
 # =========================================================
 # BASE DIRECTORY
@@ -23,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # =========================================================
 
 load_dotenv(BASE_DIR / '.env')
-
+RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
