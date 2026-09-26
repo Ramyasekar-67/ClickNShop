@@ -1350,11 +1350,72 @@
         body: formData
     })
     .then(response => response.text())
-    .then(data => {
-        document.open();
-        document.write(data);
-        document.close();
-    })
+        .then(data => {
+
+            // Play success sound before opening the success page
+            try {
+                const AudioContext =
+                    window.AudioContext ||
+                    window.webkitAudioContext;
+
+                if (AudioContext) {
+
+                    const audio = new AudioContext();
+                    const now = audio.currentTime;
+
+                    function note(frequency, start, duration, volume) {
+
+                        const oscillator = audio.createOscillator();
+                        const gain = audio.createGain();
+
+                        oscillator.type = "sine";
+
+                        oscillator.frequency.setValueAtTime(
+                            frequency,
+                            start
+                        );
+
+                        gain.gain.setValueAtTime(
+                            0.0001,
+                            start
+                        );
+
+                        gain.gain.exponentialRampToValueAtTime(
+                            volume,
+                            start + 0.03
+                        );
+
+                        gain.gain.exponentialRampToValueAtTime(
+                            0.0001,
+                            start + duration
+                        );
+
+                        oscillator.connect(gain);
+                        gain.connect(audio.destination);
+
+                        oscillator.start(start);
+                        oscillator.stop(start + duration);
+                    }
+
+                    note(523.25, now, 0.35, 0.18);
+                    note(659.25, now + 0.12, 0.43, 0.18);
+                    note(783.99, now + 0.24, 0.52, 0.16);
+                }
+
+            } catch (error) {
+                console.log("Success sound error:", error);
+            }
+
+            // Open success page after starting sound
+            setTimeout(function () {
+
+                document.open();
+                document.write(data);
+                document.close();
+
+            }, 500);
+
+        })
     .catch(error => {
         console.error("Payment verification error:", error);
         alert("Payment verification failed.");

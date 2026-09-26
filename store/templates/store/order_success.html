@@ -1982,13 +1982,17 @@
     ===================================================== */
 
     window.addEventListener(
-        "load",
-        function () {
+            "load",
+            function () {
 
-            createConfetti();
+                createConfetti();
 
-        }
-    );
+                setTimeout(function () {
+                    playSuccessSound();
+                }, 300);
+
+            }
+        );
 
 </script>
 
