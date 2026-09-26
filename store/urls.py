@@ -14,6 +14,7 @@ from .views import (
     checkout,
     verify_payment,
     my_orders,
+    order_detail,
     add_to_wishlist,
     wishlist,
     add_review,
@@ -98,6 +99,12 @@ urlpatterns = [
         'my-orders/',
         my_orders,
         name='my_orders'
+    ),
+
+    path(
+        'order/<int:order_id>/',
+        order_detail,
+        name='order_detail'
     ),
 
     # Wishlist

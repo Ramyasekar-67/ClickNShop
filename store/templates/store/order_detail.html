@@ -1,0 +1,2105 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Order #{{ order.id }} | ClickNShop
+    </title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Google Font -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background: #f5f6f8;
+
+            color: #1d1d1d;
+
+            font-family: 'Poppins', sans-serif;
+
+        }
+
+
+        /* =====================================
+           NAVBAR
+        ===================================== */
+
+        .top-navbar {
+
+            height: 70px;
+
+            background: #111111;
+
+            display: flex;
+
+            align-items: center;
+
+            box-shadow: 0 5px 25px rgba(0,0,0,.15);
+
+        }
+
+
+        .navbar-inner {
+
+            width: 100%;
+
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding: 0 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 22px;
+
+            font-weight: 800;
+
+        }
+
+
+        .brand-icon {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 11px;
+
+            background: #ff5a1f;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+        }
+
+
+        .brand-orange {
+            color: #ff5a1f;
+        }
+
+
+        .nav-actions {
+
+            display: flex;
+
+            gap: 9px;
+
+        }
+
+
+        .nav-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 9px 14px;
+
+            border: 1px solid #333;
+
+            border-radius: 9px;
+
+            color: #eeeeee;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            transition: .25s;
+
+        }
+
+
+        .nav-btn:hover {
+
+            background: #ff5a1f;
+
+            border-color: #ff5a1f;
+
+            color: white;
+
+        }
+
+
+        /* =====================================
+           MAIN CONTAINER
+        ===================================== */
+
+        .page {
+
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding: 35px 20px 70px;
+
+        }
+
+
+        /* =====================================
+           BACK LINK
+        ===================================== */
+
+        .back-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-bottom: 22px;
+
+            color: #777;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            transition: .2s;
+
+        }
+
+
+        .back-link:hover {
+
+            color: #ff5a1f;
+
+        }
+
+
+        /* =====================================
+           ORDER HEADER
+        ===================================== */
+
+        .order-header {
+
+            background:
+                linear-gradient(
+                    115deg,
+                    #151515,
+                    #292929
+                );
+
+            border-radius: 20px;
+
+            padding: 30px 34px;
+
+            margin-bottom: 22px;
+
+            color: white;
+
+            position: relative;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 12px 35px rgba(0,0,0,.12);
+
+        }
+
+
+        .order-header::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+
+            height: 250px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,90,31,.12);
+
+            right: -80px;
+
+            top: -120px;
+
+        }
+
+
+        .order-header-content {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .header-label {
+
+            color: #ff7a45;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.7px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .header-title {
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            margin: 0;
+
+        }
+
+
+        .header-subtitle {
+
+            color: #bcbcbc;
+
+            font-size: 11px;
+
+            margin-top: 7px;
+
+        }
+
+
+        .header-order-id {
+
+            margin-top: 17px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            background: rgba(255,255,255,.07);
+
+            border: 1px solid rgba(255,255,255,.09);
+
+            padding: 8px 12px;
+
+            border-radius: 8px;
+
+            font-size: 10px;
+
+            color: #ddd;
+
+        }
+
+
+        /* =====================================
+           COMMON CARD
+        ===================================== */
+
+        .card-box {
+
+            background: white;
+
+            border: 1px solid #e7e7e7;
+
+            border-radius: 17px;
+
+            margin-bottom: 20px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 22px rgba(0,0,0,.045);
+
+        }
+
+
+        .card-header {
+
+            padding: 18px 22px;
+
+            border-bottom: 1px solid #eeeeee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .card-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin: 0;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+        }
+
+
+        .card-title i {
+
+            color: #ff5a1f;
+
+            font-size: 17px;
+
+        }
+
+
+        .card-body {
+
+            padding: 22px;
+
+        }
+
+
+        /* =====================================
+           STATUS
+        ===================================== */
+
+        .status-card {
+
+            padding: 22px;
+
+        }
+
+
+        .status-wrapper {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+        }
+
+
+        .status-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+        }
+
+
+        .status-icon {
+
+            width: 55px;
+
+            height: 55px;
+
+            border-radius: 50%;
+
+            background: #eaf8ef;
+
+            color: #18a957;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 24px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .status-heading {
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+        }
+
+
+        .status-description {
+
+            color: #888;
+
+            font-size: 10px;
+
+            margin-top: 4px;
+
+        }
+
+
+        .status-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 8px 13px;
+
+            border-radius: 20px;
+
+            background: #fff0e8;
+
+            color: #e85c18;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+        }
+
+
+        .status-badge::before {
+
+            content: "";
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #ff5a1f;
+
+        }
+
+
+        /* =====================================
+           PRODUCTS
+        ===================================== */
+
+        .product-row {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 17px;
+
+            padding: 17px 0;
+
+            border-bottom: 1px solid #eeeeee;
+
+        }
+
+
+        .product-row:first-child {
+
+            padding-top: 0;
+
+        }
+
+
+        .product-row:last-child {
+
+            border-bottom: none;
+
+            padding-bottom: 0;
+
+        }
+
+
+        .product-image {
+
+            width: 88px;
+
+            height: 88px;
+
+            border-radius: 13px;
+
+            object-fit: contain;
+
+            padding: 8px;
+
+            background: #f8f8f8;
+
+            border: 1px solid #eeeeee;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .image-placeholder {
+
+            width: 88px;
+
+            height: 88px;
+
+            border-radius: 13px;
+
+            background: #f8f8f8;
+
+            border: 1px solid #eeeeee;
+
+            color: #aaa;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .product-info {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .product-name {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #222;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .product-meta {
+
+            color: #888;
+
+            font-size: 10px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .product-price {
+
+            color: #ff5a1f;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            margin-top: 8px;
+
+        }
+
+
+        .quantity-badge {
+
+            display: inline-block;
+
+            background: #f4f4f4;
+
+            border-radius: 6px;
+
+            padding: 4px 8px;
+
+            color: #666;
+
+            font-size: 9px;
+
+            font-weight: 600;
+
+            margin-top: 5px;
+
+        }
+
+
+        /* =====================================
+           DELIVERY ADDRESS
+        ===================================== */
+
+        .address-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .address-item {
+
+            background: #fafafa;
+
+            border: 1px solid #eeeeee;
+
+            border-radius: 11px;
+
+            padding: 13px;
+
+        }
+
+
+        .address-label {
+
+            color: #999;
+
+            font-size: 8px;
+
+            font-weight: 700;
+
+            letter-spacing: .6px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .address-value {
+
+            color: #333;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* =====================================
+           TRACKING
+        ===================================== */
+
+        .tracking {
+
+            padding: 22px;
+
+        }
+
+
+        .timeline {
+
+            position: relative;
+
+            padding-left: 35px;
+
+        }
+
+
+        .timeline-item {
+
+            position: relative;
+
+            padding-bottom: 28px;
+
+        }
+
+
+        .timeline-item:last-child {
+
+            padding-bottom: 0;
+
+        }
+
+
+        .timeline-item::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: -29px;
+
+            top: 2px;
+
+            width: 15px;
+
+            height: 15px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            border: 2px solid #d7d7d7;
+
+            z-index: 2;
+
+        }
+
+
+        .timeline-item.active::before {
+
+            background: #ff5a1f;
+
+            border-color: #ff5a1f;
+
+            box-shadow:
+                0 0 0 4px rgba(255,90,31,.12);
+
+        }
+
+
+        .timeline-item:not(:last-child)::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: -23px;
+
+            top: 17px;
+
+            width: 2px;
+
+            height: calc(100% - 4px);
+
+            background: #e1e1e1;
+
+        }
+
+
+        .timeline-item.active:not(:last-child)::after {
+
+            background: #ff5a1f;
+
+        }
+
+
+        .timeline-title {
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #333;
+
+        }
+
+
+        .timeline-text {
+
+            font-size: 9px;
+
+            color: #999;
+
+            margin-top: 3px;
+
+        }
+
+
+        /* =====================================
+           PAYMENT
+        ===================================== */
+
+        .payment-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 11px 0;
+
+            color: #777;
+
+            font-size: 10px;
+
+            border-bottom: 1px solid #f1f1f1;
+
+        }
+
+
+        .payment-row:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .payment-value {
+
+            color: #333;
+
+            font-weight: 600;
+
+        }
+
+
+        .payment-status {
+
+            color: #18a957;
+
+            font-weight: 700;
+
+        }
+
+
+        .total-row {
+
+            margin-top: 5px;
+
+            padding-top: 17px;
+
+            border-top: 1px solid #ddd;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .total-label {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        .total-value {
+
+            color: #ff5a1f;
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+        }
+
+
+        /* =====================================
+           ACTIONS
+        ===================================== */
+
+        .actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .action-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 10px 17px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            transition: .2s;
+
+        }
+
+
+        .primary-btn {
+
+            background: #ff5a1f;
+
+            color: white;
+
+        }
+
+
+        .primary-btn:hover {
+
+            background: #e94b13;
+
+            color: white;
+
+        }
+
+
+        .secondary-btn {
+
+            background: white;
+
+            color: #333;
+
+            border: 1px solid #ddd;
+
+        }
+
+
+        .secondary-btn:hover {
+
+            border-color: #ff5a1f;
+
+            color: #ff5a1f;
+
+        }
+
+
+        /* =====================================
+           FOOTER
+        ===================================== */
+
+        .footer {
+
+            background: #111;
+
+            color: #777;
+
+            padding: 28px 20px;
+
+            text-align: center;
+
+            font-size: 9px;
+
+        }
+
+
+        .footer-brand {
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .footer-brand i {
+
+            color: #ff5a1f;
+
+            margin-right: 5px;
+
+        }
+
+
+        .footer-orange {
+
+            color: #ff5a1f;
+
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 768px) {
+
+            .page {
+
+                padding:
+                    25px 15px 50px;
+
+            }
+
+
+            .order-header {
+
+                padding: 25px;
+
+                border-radius: 16px;
+
+            }
+
+
+            .header-title {
+
+                font-size: 23px;
+
+            }
+
+
+            .status-wrapper {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .address-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .card-body,
+            .status-card,
+            .tracking {
+
+                padding: 17px;
+
+            }
+
+
+            .card-header {
+
+                padding: 16px 17px;
+
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .top-navbar {
+
+                height: 62px;
+
+            }
+
+
+            .navbar-inner {
+
+                padding: 0 13px;
+
+            }
+
+
+            .brand {
+
+                font-size: 18px;
+
+            }
+
+
+            .brand-icon {
+
+                width: 34px;
+
+                height: 34px;
+
+                font-size: 15px;
+
+            }
+
+
+            .nav-btn {
+
+                padding: 8px 10px;
+
+            }
+
+
+            .nav-btn span {
+
+                display: none;
+
+            }
+
+
+            .page {
+
+                padding:
+                    20px 12px 40px;
+
+            }
+
+
+            .header-title {
+
+                font-size: 21px;
+
+            }
+
+
+            .header-subtitle {
+
+                max-width: 240px;
+
+            }
+
+
+            .product-image,
+            .image-placeholder {
+
+                width: 65px;
+
+                height: 65px;
+
+            }
+
+
+            .product-name {
+
+                font-size: 11px;
+
+            }
+
+
+            .product-meta {
+
+                font-size: 9px;
+
+            }
+
+
+            .product-price {
+
+                font-size: 11px;
+
+            }
+
+
+            .timeline {
+
+                padding-left: 28px;
+
+            }
+
+
+            .timeline-item::before {
+
+                left: -25px;
+
+            }
+
+
+            .timeline-item:not(:last-child)::after {
+
+                left: -19px;
+
+            }
+
+
+            .actions {
+
+                flex-direction: column;
+
+            }
+
+
+            .action-btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     NAVBAR
+===================================== -->
+
+<nav class="top-navbar">
+
+    <div class="navbar-inner">
+
+
+        <a
+            href="{% url 'home' %}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+
+                <i class="bi bi-cart-check-fill"></i>
+
+            </span>
+
+            Click<span class="brand-orange">N</span>Shop
+
+        </a>
+
+
+
+        <div class="nav-actions">
+
+
+            <a
+                href="{% url 'home' %}"
+                class="nav-btn"
+            >
+
+                <i class="bi bi-house-fill"></i>
+
+                <span>Home</span>
+
+            </a>
+
+
+            <a
+                href="{% url 'my_orders' %}"
+                class="nav-btn"
+            >
+
+                <i class="bi bi-box-seam"></i>
+
+                <span>My Orders</span>
+
+            </a>
+
+
+            <a
+                href="{% url 'cart' %}"
+                class="nav-btn"
+            >
+
+                <i class="bi bi-cart3"></i>
+
+                <span>Cart</span>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================
+     MAIN
+===================================== -->
+
+<main class="page">
+
+
+    <!-- BACK -->
+
+    <a
+        href="{% url 'my_orders' %}"
+        class="back-link"
+    >
+
+        <i class="bi bi-arrow-left"></i>
+
+        Back to My Orders
+
+    </a>
+
+
+
+    <!-- =====================================
+         ORDER HEADER
+    ===================================== -->
+
+    <section class="order-header">
+
+        <div class="order-header-content">
+
+
+            <div class="header-label">
+
+                ClickNShop Order
+
+            </div>
+
+
+            <h1 class="header-title">
+
+                Order Details
+
+            </h1>
+
+
+            <div class="header-subtitle">
+
+                Review your order, delivery information and payment details.
+
+            </div>
+
+
+            <div class="header-order-id">
+
+                <i class="bi bi-receipt"></i>
+
+                Order #{{ order.id }}
+
+                <span>•</span>
+
+                {{ order.created_at|date:"d M Y, h:i A" }}
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         ORDER STATUS
+    ===================================== -->
+
+    <section class="card-box">
+
+
+        <div class="status-card">
+
+
+            <div class="status-wrapper">
+
+
+                <div class="status-left">
+
+
+                    <div class="status-icon">
+
+                        <i class="bi bi-check-lg"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="status-heading">
+
+                            Order {{ order.status }}
+
+                        </div>
+
+
+                        <div class="status-description">
+
+                            Your order has been successfully placed and is being processed.
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="status-badge">
+
+                    {{ order.status }}
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         ORDERED PRODUCTS
+    ===================================== -->
+
+    <section class="card-box">
+
+
+        <div class="card-header">
+
+            <h2 class="card-title">
+
+                <i class="bi bi-bag-check-fill"></i>
+
+                Ordered Products
+
+            </h2>
+
+
+            <span
+                style="
+                    color:#999;
+                    font-size:9px;
+                    font-weight:600;
+                "
+            >
+
+                {{ order.items.all|length }} item{{ order.items.all|length|pluralize }}
+
+            </span>
+
+        </div>
+
+
+
+        <div class="card-body">
+
+
+            {% for item in order.items.all %}
+
+
+            <div class="product-row">
+
+
+                {% if item.product and item.product.image %}
+
+
+                    <img
+                        src="{{ item.product.image.url }}"
+                        alt="{{ item.product.name }}"
+                        class="product-image"
+                    >
+
+
+                {% else %}
+
+
+                    <div class="image-placeholder">
+
+                        <i class="bi bi-image"></i>
+
+                    </div>
+
+
+                {% endif %}
+
+
+
+                <div class="product-info">
+
+
+                    <div class="product-name">
+
+                        {% if item.product %}
+
+                            {{ item.product.name }}
+
+                        {% else %}
+
+                            Product unavailable
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="product-meta">
+
+                        Price per item:
+                        ₹{{ item.price|floatformat:2 }}
+
+                    </div>
+
+
+                    <div class="product-meta">
+
+                        Quantity:
+                        {{ item.quantity }}
+
+                    </div>
+
+
+                    <span class="quantity-badge">
+
+                        <i class="bi bi-check-circle me-1"></i>
+
+                        Included in this order
+
+                    </span>
+
+
+                </div>
+
+
+                <div class="product-price">
+
+                    ₹{{ item.price|floatformat:2 }}
+
+                </div>
+
+
+            </div>
+
+
+            {% empty %}
+
+
+            <div
+                style="
+                    text-align:center;
+                    padding:30px;
+                    color:#999;
+                    font-size:11px;
+                "
+            >
+
+                No products found for this order.
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         DELIVERY ADDRESS
+    ===================================== -->
+
+    <section class="card-box">
+
+
+        <div class="card-header">
+
+            <h2 class="card-title">
+
+                <i class="bi bi-geo-alt-fill"></i>
+
+                Delivery Address
+
+            </h2>
+
+        </div>
+
+
+        <div class="card-body">
+
+
+            <div class="address-grid">
+
+
+                <div class="address-item">
+
+                    <div class="address-label">
+                        Full Name
+                    </div>
+
+                    <div class="address-value">
+
+                        {{ order.full_name }}
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="address-item">
+
+                    <div class="address-label">
+                        Phone
+                    </div>
+
+                    <div class="address-value">
+
+                        {{ order.phone }}
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="address-item">
+
+                    <div class="address-label">
+                        Address
+                    </div>
+
+                    <div class="address-value">
+
+                        {{ order.address }}
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="address-item">
+
+                    <div class="address-label">
+                        City
+                    </div>
+
+                    <div class="address-value">
+
+                        {{ order.city }}
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="address-item">
+
+                    <div class="address-label">
+                        State
+                    </div>
+
+                    <div class="address-value">
+
+                        {{ order.state }}
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="address-item">
+
+                    <div class="address-label">
+                        Pincode
+                    </div>
+
+                    <div class="address-value">
+
+                        {{ order.pincode }}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         ORDER TRACKING
+    ===================================== -->
+
+    <section class="card-box">
+
+
+        <div class="card-header">
+
+            <h2 class="card-title">
+
+                <i class="bi bi-truck"></i>
+
+                Order Tracking
+
+            </h2>
+
+        </div>
+
+
+        <div class="tracking">
+
+
+            <div class="timeline">
+
+
+                <div class="timeline-item active">
+
+                    <div class="timeline-title">
+
+                        Order Placed
+
+                    </div>
+
+                    <div class="timeline-text">
+
+                        Your order has been received successfully.
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="timeline-item active">
+
+                    <div class="timeline-title">
+
+                        Processing
+
+                    </div>
+
+                    <div class="timeline-text">
+
+                        Your order is being prepared.
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-title">
+
+                        Shipped
+
+                    </div>
+
+                    <div class="timeline-text">
+
+                        Your package will be handed over to the delivery partner.
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-title">
+
+                        Delivered
+
+                    </div>
+
+                    <div class="timeline-text">
+
+                        Your package will be delivered to the provided address.
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         PAYMENT SUMMARY
+    ===================================== -->
+
+    <section class="card-box">
+
+
+        <div class="card-header">
+
+            <h2 class="card-title">
+
+                <i class="bi bi-credit-card-fill"></i>
+
+                Payment Summary
+
+            </h2>
+
+        </div>
+
+
+        <div class="card-body">
+
+
+            <div class="payment-row">
+
+                <span>
+                    Payment Method
+                </span>
+
+                <span class="payment-value">
+
+                    {{ order.get_payment_method_display }}
+
+                </span>
+
+            </div>
+
+
+
+            <div class="payment-row">
+
+                <span>
+                    Payment Status
+                </span>
+
+                <span class="payment-status">
+
+                    {{ order.payment_status }}
+
+                </span>
+
+            </div>
+
+
+
+            {% if order.razorpay_payment_id %}
+
+            <div class="payment-row">
+
+                <span>
+                    Payment ID
+                </span>
+
+                <span
+                    class="payment-value"
+                    style="font-size:9px;"
+                >
+
+                    {{ order.razorpay_payment_id }}
+
+                </span>
+
+            </div>
+
+            {% endif %}
+
+
+
+            <div class="total-row">
+
+                <span class="total-label">
+
+                    Total Amount
+
+                </span>
+
+                <span class="total-value">
+
+                    ₹{{ order.total_amount|floatformat:2 }}
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         ACTION BUTTONS
+    ===================================== -->
+
+    <section class="card-box">
+
+
+        <div class="card-body">
+
+
+            <div class="actions">
+
+
+                <a
+                    href="{% url 'my_orders' %}"
+                    class="action-btn primary-btn"
+                >
+
+                    <i class="bi bi-box-seam"></i>
+
+                    My Orders
+
+                </a>
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="action-btn secondary-btn"
+                >
+
+                    <i class="bi bi-shop"></i>
+
+                    Continue Shopping
+
+                </a>
+
+
+                <a
+                    href="{% url 'cart' %}"
+                    class="action-btn secondary-btn"
+                >
+
+                    <i class="bi bi-cart3"></i>
+
+                    View Cart
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================
+     FOOTER
+===================================== -->
+
+<footer class="footer">
+
+
+    <div class="footer-brand">
+
+        <i class="bi bi-cart-check-fill"></i>
+
+        Click<span class="footer-orange">N</span>Shop
+
+    </div>
+
+
+    Shop Smart. Shop Better.
+
+
+    <div style="margin-top:6px;">
+
+        © 2026 ClickNShop. All rights reserved.
+
+    </div>
+
+
+</footer>
+
+
+
+</body>
+
+</html>

@@ -1,4 +1,5 @@
 import razorpay
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
@@ -457,7 +458,9 @@ def checkout(request):
                     'Your order has been placed successfully!'
                 )
 
-                return redirect('home')
+                return render(request, 'store/order_success.html', {
+                    'order': order,
+                })
 
             # Razorpay
             client = razorpay.Client(
@@ -514,6 +517,10 @@ def checkout(request):
     })
 
 
+# =========================
+# MY ORDERS
+# =========================
+
 @login_required
 def my_orders(request):
     orders = Order.objects.filter(
@@ -526,6 +533,25 @@ def my_orders(request):
 
     return render(request, 'store/my_orders.html', {
         'orders': orders
+    })
+
+
+# =========================
+# ORDER DETAIL
+# =========================
+
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(
+        Order.objects.prefetch_related(
+            'items__product'
+        ),
+        id=order_id,
+        user=request.user
+    )
+
+    return render(request, 'store/order_detail.html', {
+        'order': order
     })
 
 
@@ -552,6 +578,7 @@ def add_to_wishlist(request, product_id):
             request,
             f'{product.name} removed from your wishlist.'
         )
+
     else:
         Wishlist.objects.create(
             user=request.user,
@@ -585,6 +612,10 @@ def wishlist(request):
         'wishlist_items': wishlist_items
     })
 
+
+# =========================
+# VERIFY RAZORPAY PAYMENT
+# =========================
 
 @login_required
 def verify_payment(request):
@@ -631,13 +662,20 @@ def verify_payment(request):
                 'Payment successful! Your order has been placed.'
             )
 
-            return redirect('my_orders')
+            return render(
+                request,
+                'store/order_success.html',
+                {
+                    'order': order
+                }
+            )
 
         except Exception:
             messages.error(
                 request,
                 'Payment verification failed.'
             )
+
             return redirect('checkout')
 
     return redirect('checkout')

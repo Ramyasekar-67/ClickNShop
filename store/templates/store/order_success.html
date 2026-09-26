@@ -1,0 +1,1998 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Confirmed - ClickNShop</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f6f8;
+            color: #172033;
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+            width: 100%;
+            min-height: 68px;
+
+            background: #131921;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 6%;
+
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            text-decoration: none;
+            color: white;
+
+            font-size: 27px;
+            font-weight: 800;
+
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #ff9900;
+        }
+
+        .navbar-right {
+            margin-left: auto;
+
+            display: flex;
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        .navbar-right a {
+            color: white;
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 500;
+
+            transition: 0.2s;
+        }
+
+        .navbar-right a:hover {
+            color: #ff9900;
+        }
+
+        .navbar-right i {
+            margin-right: 5px;
+        }
+
+
+        /* =====================================================
+           FULL SUCCESS SECTION
+        ===================================================== */
+
+        .success-hero {
+
+            width: 100%;
+            min-height: 560px;
+
+            background:
+                radial-gradient(
+                    circle at 50% 20%,
+                    rgba(255, 153, 0, 0.13),
+                    transparent 34%
+                ),
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #fffaf3 100%
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            position: relative;
+            overflow: hidden;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        /* Decorative circles */
+
+        .hero-circle-one {
+            position: absolute;
+
+            width: 420px;
+            height: 420px;
+
+            border: 1px solid rgba(255, 153, 0, 0.12);
+
+            border-radius: 50%;
+
+            top: -260px;
+            left: 50%;
+
+            transform: translateX(-50%);
+        }
+
+        .hero-circle-two {
+            position: absolute;
+
+            width: 650px;
+            height: 650px;
+
+            border: 1px solid rgba(46, 125, 50, 0.07);
+
+            border-radius: 50%;
+
+            top: -375px;
+            left: 50%;
+
+            transform: translateX(-50%);
+        }
+
+
+        .success-content {
+
+            position: relative;
+            z-index: 10;
+
+            width: 100%;
+            max-width: 800px;
+
+            padding: 50px 20px;
+        }
+
+
+        /* =====================================================
+           SUCCESS ICON
+        ===================================================== */
+
+        .success-check {
+
+            width: 145px;
+            height: 145px;
+
+            margin: 0 auto 30px;
+
+            border-radius: 50%;
+
+            background: #2e7d32;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                0 20px 45px rgba(46, 125, 50, 0.25),
+                0 0 0 15px rgba(46, 125, 50, 0.08);
+
+            animation: pop 0.8s cubic-bezier(.17,.89,.32,1.28);
+        }
+
+        .success-check i {
+
+            color: white;
+
+            font-size: 78px;
+
+            font-weight: bold;
+
+            animation: check 0.5s ease 0.4s both;
+        }
+
+        @keyframes pop {
+
+            0% {
+                transform: scale(0);
+            }
+
+            60% {
+                transform: scale(1.12);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+
+        }
+
+        @keyframes check {
+
+            0% {
+                opacity: 0;
+                transform: scale(0.2);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+
+        /* =====================================================
+           SUCCESS TEXT
+        ===================================================== */
+
+        .success-content h1 {
+
+            font-size: 42px;
+            font-weight: 800;
+
+            color: #111827;
+
+            margin-bottom: 12px;
+
+            animation: slideUp 0.7s ease 0.25s both;
+        }
+
+        .success-message {
+
+            color: #687386;
+
+            font-size: 16px;
+
+            margin-bottom: 25px;
+
+            animation: slideUp 0.7s ease 0.4s both;
+        }
+
+        @keyframes slideUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* =====================================================
+           ORDER ID
+        ===================================================== */
+
+        .order-id {
+
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 12px 22px;
+
+            background: white;
+
+            border: 1px solid #e1e5ea;
+
+            border-radius: 50px;
+
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+
+            font-size: 14px;
+
+            animation: slideUp 0.7s ease 0.55s both;
+        }
+
+        .order-id i {
+            color: #ff9900;
+            font-size: 18px;
+        }
+
+        .order-id strong {
+            color: #111827;
+        }
+
+
+        /* =====================================================
+           SUCCESS BADGE
+        ===================================================== */
+
+        .confirmed-badge {
+
+            display: flex;
+
+            width: fit-content;
+
+            margin: 22px auto 0;
+
+            align-items: center;
+            gap: 7px;
+
+            padding: 8px 16px;
+
+            background: #ecfdf3;
+
+            color: #16803c;
+
+            border: 1px solid #c8f0d7;
+
+            border-radius: 30px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            animation: slideUp 0.7s ease 0.65s both;
+        }
+
+
+        /* =====================================================
+           SOUND BUTTON
+        ===================================================== */
+
+        .sound-btn {
+
+            margin-top: 18px;
+
+            padding: 9px 18px;
+
+            border-radius: 30px;
+
+            border: 1px solid #ddd;
+
+            background: white;
+
+            color: #555;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-size: 12px;
+
+            transition: 0.2s;
+        }
+
+        .sound-btn:hover {
+
+            border-color: #ff9900;
+
+            color: #ff9900;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           CONFETTI
+        ===================================================== */
+
+        .confetti {
+
+            position: absolute;
+
+            width: 9px;
+            height: 15px;
+
+            top: -30px;
+
+            z-index: 5;
+
+            animation: fall 3.5s linear forwards;
+        }
+
+        @keyframes fall {
+
+            0% {
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+
+                opacity: 1;
+            }
+
+            100% {
+                transform:
+                    translateY(600px)
+                    rotate(720deg);
+
+                opacity: 0;
+            }
+
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-container {
+
+            width: 100%;
+            max-width: 1250px;
+
+            margin: 0 auto;
+
+            padding: 45px 20px 70px;
+        }
+
+
+        /* =====================================================
+           SECTION HEADER
+        ===================================================== */
+
+        .section-heading {
+
+            margin-bottom: 20px;
+        }
+
+        .section-heading h2 {
+
+            font-size: 22px;
+            font-weight: 800;
+
+            color: #111827;
+
+            margin-bottom: 4px;
+        }
+
+        .section-heading p {
+
+            color: #7a8494;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           MAIN GRID
+        ===================================================== */
+
+        .content-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.75fr)
+                minmax(300px, 0.9fr);
+
+            gap: 24px;
+        }
+
+
+        /* =====================================================
+           CARD
+        ===================================================== */
+
+        .card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            border: 1px solid #e5e9ee;
+
+            box-shadow:
+                0 8px 30px rgba(18, 38, 63, 0.06);
+
+            overflow: hidden;
+        }
+
+        .card-header {
+
+            padding: 21px 24px;
+
+            border-bottom: 1px solid #edf0f3;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .card-header i {
+
+            color: #ff9900;
+
+            font-size: 21px;
+        }
+
+        .card-header h3 {
+
+            font-size: 17px;
+            font-weight: 700;
+
+            color: #172033;
+        }
+
+        .card-body {
+
+            padding: 24px;
+        }
+
+
+        /* =====================================================
+           PRODUCT
+        ===================================================== */
+
+        .product {
+
+            display: flex;
+
+            gap: 20px;
+
+            padding: 10px 0 22px;
+
+            border-bottom: 1px solid #edf0f3;
+        }
+
+        .product:last-child {
+
+            border-bottom: none;
+
+            padding-bottom: 5px;
+        }
+
+        .product-img {
+
+            width: 115px;
+            height: 115px;
+
+            flex-shrink: 0;
+
+            object-fit: contain;
+
+            padding: 10px;
+
+            border: 1px solid #e7eaee;
+
+            border-radius: 12px;
+
+            background: #fff;
+        }
+
+        .product-details {
+
+            flex: 1;
+        }
+
+        .product-title {
+
+            font-size: 16px;
+            font-weight: 700;
+
+            color: #172033;
+
+            margin-bottom: 10px;
+        }
+
+        .product-detail-line {
+
+            font-size: 13px;
+
+            color: #727d8d;
+
+            margin-bottom: 6px;
+        }
+
+        .product-detail-line i {
+
+            width: 18px;
+
+            color: #ff9900;
+        }
+
+        .product-total {
+
+            margin-top: 12px;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            color: #111827;
+        }
+
+
+        /* =====================================================
+           ADDRESS
+        ===================================================== */
+
+        .address-card {
+
+            margin-top: 24px;
+        }
+
+        .address-wrapper {
+
+            display: flex;
+
+            gap: 15px;
+
+            padding: 17px;
+
+            background: #f8fafc;
+
+            border-radius: 12px;
+
+            border: 1px solid #e8edf2;
+        }
+
+        .address-icon {
+
+            width: 45px;
+            height: 45px;
+
+            min-width: 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3df;
+
+            color: #ff9900;
+
+            border-radius: 50%;
+
+            font-size: 20px;
+        }
+
+        .address-text {
+
+            font-size: 13px;
+
+            color: #687386;
+
+            line-height: 1.8;
+        }
+
+        .address-text strong {
+
+            color: #172033;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           TRACKING
+        ===================================================== */
+
+        .tracking-card {
+
+            margin-top: 24px;
+        }
+
+        .timeline {
+
+            position: relative;
+
+            padding-left: 4px;
+        }
+
+        .timeline-line {
+
+            position: absolute;
+
+            left: 21px;
+
+            top: 22px;
+
+            bottom: 22px;
+
+            width: 3px;
+
+            background: #e5e9ee;
+        }
+
+        .timeline-progress {
+
+            position: absolute;
+
+            left: 21px;
+
+            top: 22px;
+
+            width: 3px;
+
+            height: 10%;
+
+            background: #2e7d32;
+
+            border-radius: 10px;
+        }
+
+        .timeline-row {
+
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+
+            gap: 17px;
+
+            margin-bottom: 28px;
+        }
+
+        .timeline-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-icon {
+
+            width: 44px;
+            height: 44px;
+
+            min-width: 44px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            border: 2px solid #dce1e6;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #a0a8b3;
+
+            font-size: 17px;
+        }
+
+        .timeline-row.active .timeline-icon {
+
+            background: #2e7d32;
+
+            border-color: #2e7d32;
+
+            color: white;
+
+            box-shadow: 0 0 0 6px #e8f5e9;
+        }
+
+        .timeline-info {
+
+            padding-top: 3px;
+        }
+
+        .timeline-info strong {
+
+            display: block;
+
+            font-size: 14px;
+
+            color: #1f2937;
+
+            margin-bottom: 3px;
+        }
+
+        .timeline-info span {
+
+            font-size: 12px;
+
+            color: #8a94a3;
+        }
+
+        .timeline-row:not(.active) .timeline-info {
+
+            opacity: 0.55;
+        }
+
+
+        /* =====================================================
+           PAYMENT CARD
+        ===================================================== */
+
+        .payment-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 13px 0;
+
+            font-size: 13px;
+
+            color: #737e8d;
+        }
+
+        .payment-row strong {
+
+            color: #172033;
+
+            text-align: right;
+        }
+
+        .paid {
+
+            color: #2e7d32 !important;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+        }
+
+        .total-row {
+
+            border-top: 1px solid #e8edf2;
+
+            margin-top: 8px;
+
+            padding-top: 20px;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            color: #172033;
+        }
+
+        .total-row strong {
+
+            color: #ff6b00;
+
+            font-size: 21px;
+        }
+
+
+        /* =====================================================
+           DELIVERY BOX
+        ===================================================== */
+
+        .delivery-box {
+
+            margin-top: 18px;
+
+            padding: 17px;
+
+            border-radius: 12px;
+
+            background: linear-gradient(
+                135deg,
+                #f0fdf4,
+                #f7fff9
+            );
+
+            border: 1px solid #d5f2df;
+
+            color: #176b37;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+        .delivery-box i {
+
+            font-size: 18px;
+
+            margin-right: 6px;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .action-buttons {
+
+            margin-top: 20px;
+        }
+
+        .action-btn {
+
+            width: 100%;
+
+            padding: 14px 18px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            margin-bottom: 11px;
+
+            transition: 0.2s;
+        }
+
+        .orders-btn {
+
+            background: #ff9900;
+
+            color: #111;
+        }
+
+        .orders-btn:hover {
+
+            background: #f3a847;
+
+            color: #111;
+
+            transform: translateY(-2px);
+        }
+
+        .shopping-btn {
+
+            background: #131921;
+
+            color: white;
+        }
+
+        .shopping-btn:hover {
+
+            background: #232f3e;
+
+            color: white;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           FOOTER MESSAGE
+        ===================================================== */
+
+        .thank-you {
+
+            text-align: center;
+
+            padding: 35px 10px 5px;
+
+            color: #7b8492;
+
+            font-size: 13px;
+        }
+
+        .thank-you i {
+
+            color: #ff9900;
+
+            margin-right: 5px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .content-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .success-content h1 {
+
+                font-size: 35px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 0 18px;
+            }
+
+            .logo {
+
+                font-size: 22px;
+            }
+
+            .navbar-right {
+
+                gap: 12px;
+            }
+
+            .navbar-right a {
+
+                font-size: 0;
+            }
+
+            .navbar-right i {
+
+                font-size: 19px;
+
+                margin: 0;
+            }
+
+            .success-hero {
+
+                min-height: 500px;
+            }
+
+            .success-check {
+
+                width: 105px;
+                height: 105px;
+
+                margin-bottom: 24px;
+            }
+
+            .success-check i {
+
+                font-size: 58px;
+            }
+
+            .success-content h1 {
+
+                font-size: 27px;
+            }
+
+            .success-message {
+
+                font-size: 13px;
+
+                padding: 0 15px;
+            }
+
+            .main-container {
+
+                padding: 25px 13px 50px;
+            }
+
+            .card-header {
+
+                padding: 18px;
+            }
+
+            .card-body {
+
+                padding: 18px;
+            }
+
+            .product {
+
+                gap: 13px;
+            }
+
+            .product-img {
+
+                width: 85px;
+                height: 85px;
+            }
+
+            .product-title {
+
+                font-size: 14px;
+            }
+
+            .product-detail-line {
+
+                font-size: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <a
+        href="{% url 'home' %}"
+        class="logo"
+    >
+        Click<span>N</span>Shop
+    </a>
+
+
+    <div class="navbar-right">
+
+        <a href="{% url 'home' %}">
+            <i class="bi bi-house"></i>
+            Home
+        </a>
+
+        <a href="{% url 'my_orders' %}">
+            <i class="bi bi-box-seam"></i>
+            My Orders
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     SUCCESS HERO
+===================================================== -->
+
+<section class="success-hero">
+
+    <div class="hero-circle-one"></div>
+
+    <div class="hero-circle-two"></div>
+
+
+    <div class="success-content">
+
+
+        <div class="success-check">
+
+            <i class="bi bi-check-lg"></i>
+
+        </div>
+
+
+        <h1>
+            Order placed successfully!
+        </h1>
+
+
+        <p class="success-message">
+
+            Thank you for shopping with ClickNShop.
+            Your order has been confirmed and is being prepared.
+
+        </p>
+
+
+        <div class="order-id">
+
+            <i class="bi bi-receipt-cutoff"></i>
+
+            <span>
+                Order ID:
+            </span>
+
+            <strong>
+                #{{ order.id }}
+            </strong>
+
+        </div>
+
+
+        <div class="confirmed-badge">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            Order Confirmed
+
+        </div>
+
+
+        <button
+            type="button"
+            class="sound-btn"
+            id="soundButton"
+        >
+
+            <i class="bi bi-volume-up"></i>
+
+            Replay success sound
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main-container">
+
+
+    <div class="section-heading">
+
+        <h2>
+            Order details
+        </h2>
+
+        <p>
+            Here is everything you need to know about your order.
+        </p>
+
+    </div>
+
+
+
+    <div class="content-grid">
+
+
+        <!-- =================================================
+             LEFT
+        ================================================= -->
+
+        <div>
+
+
+            <!-- ORDER -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <i class="bi bi-bag-check-fill"></i>
+
+                    <h3>
+                        Your Order
+                    </h3>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    {% for item in order.items.all %}
+
+                    <div class="product">
+
+
+                        {% if item.product.image %}
+
+                        <img
+                            src="{{ item.product.image.url }}"
+                            class="product-img"
+                            alt="{{ item.product.name }}"
+                        >
+
+                        {% else %}
+
+                        <div
+                            class="product-img"
+                            style="
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                            "
+                        >
+
+                            <i
+                                class="bi bi-image"
+                                style="
+                                    font-size:35px;
+                                    color:#adb5bd;
+                                "
+                            ></i>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <div class="product-details">
+
+
+                            <div class="product-title">
+
+                                {{ item.product.name }}
+
+                            </div>
+
+
+                            <div class="product-detail-line">
+
+                                <i class="bi bi-box"></i>
+
+                                Quantity:
+                                {{ item.quantity }}
+
+                            </div>
+
+
+                            <div class="product-detail-line">
+
+                                <i class="bi bi-tag"></i>
+
+                                Price:
+                                ₹{{ item.price|floatformat:2 }}
+
+                            </div>
+
+
+                            <div class="product-total">
+
+                                ₹{% widthratio item.price 1 item.quantity %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ADDRESS -->
+
+            <div class="card address-card">
+
+                <div class="card-header">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    <h3>
+                        Delivery Address
+                    </h3>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="address-wrapper">
+
+
+                        <div class="address-icon">
+
+                            <i class="bi bi-house-door-fill"></i>
+
+                        </div>
+
+
+                        <div class="address-text">
+
+                            <strong>
+                                {{ order.full_name }}
+                            </strong>
+
+                            <br>
+
+                            {{ order.address }}
+
+                            <br>
+
+                            {{ order.city }},
+                            {{ order.state }}
+                            -
+                            {{ order.pincode }}
+
+                            <br>
+
+                            <strong>
+                                Phone:
+                            </strong>
+
+                            {{ order.phone }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TRACKING -->
+
+            <div class="card tracking-card">
+
+                <div class="card-header">
+
+                    <i class="bi bi-truck"></i>
+
+                    <h3>
+                        Order Tracking
+                    </h3>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="timeline">
+
+
+                        <div class="timeline-line"></div>
+
+                        <div class="timeline-progress"></div>
+
+
+
+                        <div class="timeline-row active">
+
+                            <div class="timeline-icon">
+
+                                <i class="bi bi-check-lg"></i>
+
+                            </div>
+
+                            <div class="timeline-info">
+
+                                <strong>
+                                    Order Placed
+                                </strong>
+
+                                <span>
+                                    Your order has been received
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="timeline-row">
+
+                            <div class="timeline-icon">
+
+                                <i class="bi bi-box-seam"></i>
+
+                            </div>
+
+                            <div class="timeline-info">
+
+                                <strong>
+                                    Processing
+                                </strong>
+
+                                <span>
+                                    Your order will be prepared
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="timeline-row">
+
+                            <div class="timeline-icon">
+
+                                <i class="bi bi-truck"></i>
+
+                            </div>
+
+                            <div class="timeline-info">
+
+                                <strong>
+                                    Shipped
+                                </strong>
+
+                                <span>
+                                    Your package will be shipped
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="timeline-row">
+
+                            <div class="timeline-icon">
+
+                                <i class="bi bi-bicycle"></i>
+
+                            </div>
+
+                            <div class="timeline-info">
+
+                                <strong>
+                                    Out for Delivery
+                                </strong>
+
+                                <span>
+                                    Your package will be on its way
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="timeline-row">
+
+                            <div class="timeline-icon">
+
+                                <i class="bi bi-house-check"></i>
+
+                            </div>
+
+                            <div class="timeline-info">
+
+                                <strong>
+                                    Delivered
+                                </strong>
+
+                                <span>
+                                    Package delivered to your address
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             RIGHT
+        ================================================= -->
+
+        <div>
+
+
+            <!-- PAYMENT -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <i class="bi bi-credit-card-fill"></i>
+
+                    <h3>
+                        Payment Summary
+                    </h3>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="payment-row">
+
+                        <span>
+                            Payment Method
+                        </span>
+
+                        <strong>
+                            {{ order.payment_method }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="payment-row">
+
+                        <span>
+                            Payment Status
+                        </span>
+
+                        <strong class="paid">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            {{ order.payment_status }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="payment-row total-row">
+
+                        <span>
+                            Total Amount
+                        </span>
+
+                        <strong>
+                            ₹{{ order.total_amount|floatformat:2 }}
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DELIVERY MESSAGE -->
+
+            <div class="delivery-box">
+
+                <i class="bi bi-shield-check"></i>
+
+                Your order is confirmed and will be processed shortly.
+                You can track your order anytime from My Orders.
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="action-buttons">
+
+
+                <a
+                    href="{% url 'my_orders' %}"
+                    class="action-btn orders-btn"
+                >
+
+                    <i class="bi bi-box-seam"></i>
+
+                    View My Orders
+
+                </a>
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="action-btn shopping-btn"
+                >
+
+                    <i class="bi bi-cart3"></i>
+
+                    Continue Shopping
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- THANK YOU -->
+
+    <div class="thank-you">
+
+        <i class="bi bi-heart-fill"></i>
+
+        Thank you for choosing
+        <strong>ClickNShop</strong>!
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+    /* =====================================================
+       SUCCESS SOUND
+    ===================================================== */
+
+    function playSuccessSound() {
+
+        try {
+
+            const AudioContext =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+            if (!AudioContext) {
+                return;
+            }
+
+
+            const audio =
+                new AudioContext();
+
+            const now =
+                audio.currentTime;
+
+
+            function note(
+                frequency,
+                start,
+                duration,
+                volume
+            ) {
+
+                const oscillator =
+                    audio.createOscillator();
+
+                const gain =
+                    audio.createGain();
+
+
+                oscillator.type = "sine";
+
+
+                oscillator.frequency.setValueAtTime(
+                    frequency,
+                    start
+                );
+
+
+                gain.gain.setValueAtTime(
+                    0.0001,
+                    start
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    volume,
+                    start + 0.03
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.0001,
+                    start + duration
+                );
+
+
+                oscillator.connect(gain);
+
+                gain.connect(
+                    audio.destination
+                );
+
+
+                oscillator.start(start);
+
+                oscillator.stop(
+                    start + duration
+                );
+
+            }
+
+
+            note(
+                523.25,
+                now,
+                0.35,
+                0.18
+            );
+
+
+            note(
+                659.25,
+                now + 0.12,
+                0.43,
+                0.18
+            );
+
+
+            note(
+                783.99,
+                now + 0.24,
+                0.52,
+                0.16
+            );
+
+        }
+
+        catch (error) {
+
+            console.log(
+                "Sound error:",
+                error
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       CONFETTI
+    ===================================================== */
+
+    function createConfetti() {
+
+        const hero =
+            document.querySelector(
+                ".success-hero"
+            );
+
+
+        if (!hero) {
+            return;
+        }
+
+
+        const colors = [
+
+            "#ff9900",
+            "#2874f0",
+            "#2e7d32",
+            "#f44336",
+            "#9c27b0"
+
+        ];
+
+
+        for (
+            let i = 0;
+            i < 50;
+            i++
+        ) {
+
+            const piece =
+                document.createElement(
+                    "span"
+                );
+
+
+            piece.className =
+                "confetti";
+
+
+            piece.style.left =
+                Math.random() * 100 + "%";
+
+
+            piece.style.background =
+                colors[
+                    Math.floor(
+                        Math.random() *
+                        colors.length
+                    )
+                ];
+
+
+            piece.style.animationDelay =
+                Math.random() * 1.2 + "s";
+
+
+            piece.style.width =
+                (6 + Math.random() * 5) + "px";
+
+
+            piece.style.height =
+                (9 + Math.random() * 9) + "px";
+
+
+            hero.appendChild(piece);
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       SOUND BUTTON
+    ===================================================== */
+
+    const soundButton =
+        document.getElementById(
+            "soundButton"
+        );
+
+
+    if (soundButton) {
+
+        soundButton.addEventListener(
+            "click",
+            function () {
+
+                playSuccessSound();
+
+
+                soundButton.innerHTML =
+                    '<i class="bi bi-volume-up-fill"></i> Playing...';
+
+
+                setTimeout(
+                    function () {
+
+                        soundButton.innerHTML =
+                            '<i class="bi bi-volume-up"></i> Replay success sound';
+
+                    },
+                    900
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       PAGE LOAD
+    ===================================================== */
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            createConfetti();
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
