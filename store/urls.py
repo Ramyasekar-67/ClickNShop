@@ -2,6 +2,7 @@ from django.urls import path
 
 from .views import (
     home,
+    category_products,
     product_detail,
     register,
     user_login,
@@ -27,6 +28,12 @@ urlpatterns = [
         '',
         home,
         name='home'
+    ),
+
+    path(
+       'category/<str:category>/',
+        category_products,
+        name='category_products'
     ),
 
     path(

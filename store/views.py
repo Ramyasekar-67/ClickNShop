@@ -70,6 +70,34 @@ def home(request):
     })
 
 
+def category_products(request, category):
+    products = Product.objects.filter(
+        category=category
+    ).order_by('-created_at')
+
+    paginator = Paginator(products, 6)
+    page_number = request.GET.get('page')
+    products = paginator.get_page(page_number)
+
+    wishlist_product_ids = []
+
+    if request.user.is_authenticated:
+        wishlist_product_ids = list(
+            Wishlist.objects.filter(
+                user=request.user
+            ).values_list(
+                'product_id',
+                flat=True
+            )
+        )
+
+    return render(request, 'store/category_products.html', {
+        'products': products,
+        'category': category,
+        'wishlist_product_ids': wishlist_product_ids,
+    })    
+
+
 def product_detail(request, product_id):
     product = get_object_or_404(
         Product,
@@ -445,7 +473,7 @@ def checkout(request):
                         order=order,
                         product=item.product,
                         quantity=item.quantity,
-                        price=item.product.price,
+                        price=item.product.price_with_gst,
                     )
 
                     item.product.stock -= item.quantity

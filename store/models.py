@@ -21,6 +21,11 @@ class Product(models.Model):
         choices=CATEGORY_CHOICES
     )
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    gst_rate = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0.00
+    )
     original_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -38,6 +43,13 @@ class Product(models.Model):
     featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    
+    @property
+    def price_with_gst(self):
+        return self.price + (
+            self.price * self.gst_rate / 100
+        )
+    
     def __str__(self):
         return self.name
 
@@ -66,7 +78,7 @@ class CartItem(models.Model):
         ]
 
     def subtotal(self):
-        return self.product.price * self.quantity
+        return self.product.price_with_gst * self.quantity
 
     def __str__(self):
         return f"{self.user.username} - {self.product.name}"

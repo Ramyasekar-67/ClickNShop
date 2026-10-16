@@ -15,6 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
         'category',
         'price',
+        'gst_rate',
         'original_price',
         'discount',
         'stock',
@@ -38,6 +39,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     list_editable = (
         'price',
+        'gst_rate',
         'stock',
         'featured',
     )

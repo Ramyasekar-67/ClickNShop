@@ -1153,10 +1153,11 @@
 
 
                         <strong class="summary-product-price">
-
-                            ₹{{ item.subtotal }}
-
+                            ₹{{ item.subtotal|floatformat:2 }}
                         </strong>
+                        <small>
+                            Including {{ item.product.gst_rate }}% GST
+                        </small>
 
 
                     </div>

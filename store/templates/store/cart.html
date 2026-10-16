@@ -835,11 +835,13 @@
                             </p>
 
 
+                            
                             <div class="cart-price">
+                                ₹{{ item.product.price_with_gst|floatformat:2 }}
+                                <small>(Including {{ item.product.gst_rate }}% GST)</small>
+                            </div>    
 
-                                ₹{{ item.product.price }}
-
-                            </div>
+                            
 
 
                             <div class="cart-actions">

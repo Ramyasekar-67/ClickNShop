@@ -682,7 +682,7 @@
             {% for category_value, category_name in categories %}
 
                 <a
-                    href="{% url 'home' %}?category={{ category_value }}"
+                    href="{% url 'category_products' category_value %}"
                     class="category-card">
 
 
@@ -1231,28 +1231,22 @@
 
                                 <!-- Price -->
 
-                                <div class="price-area">
-
-
-                                    <span class="product-price">
-
-                                        ₹{{ product.price }}
-
-                                    </span>
-
-
-                                    {% if product.original_price %}
-
-                                        <span class="original-price">
-
-                                            ₹{{ product.original_price }}
-
+                                
+                                    <div class="price-area">
+                                        <span class="product-price">
+                                            ₹{{ product.price_with_gst|floatformat:2 }}
                                         </span>
 
-                                    {% endif %}
+                                        <small class="gst-label">
+                                            (Including {{ product.gst_rate }}% GST)
+                                        </small>
 
-
-                                </div>
+                                        {% if product.original_price %}
+                                            <span class="original-price">
+                                                ₹{{ product.original_price }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
 
 
 
