@@ -291,7 +291,7 @@
             {% for category_value, category_name in categories %}
 
                 <a
-                    href="{% url 'home' %}?category={{ category_value }}"
+                    href="{% url 'home' %}?category={{ category_value|urlencode }}#products"
                     class="category-nav-item {% if selected_category == category_value %}active{% endif %}">
 
 
