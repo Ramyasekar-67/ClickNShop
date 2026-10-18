@@ -1,0 +1,16 @@
+{% extends 'store/admin_base.html' %}
+{% block title %}GST Management - ClickNShop Admin{% endblock %}
+{% block content %}
+<section class="panel"><h2>Set GST for a whole category</h2>
+<form method="post" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">{% csrf_token %}<input type="hidden" name="mode" value="category">
+<select name="category" required>{% for value, label in categories %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select>
+<input type="number" name="rate" min="0" max="100" step="0.01" placeholder="GST %" required>
+<button class="btn" type="submit">Apply to category</button></form></section>
+<section class="panel"><h2>GST rate per product</h2>
+<p class="muted">Product prices are entered <strong>before GST</strong>; customers pay price + GST. Changing a rate affects new orders only – past orders keep the rate they were bought at.</p>
+<form method="post">{% csrf_token %}<input type="hidden" name="mode" value="products">
+<table><thead><tr><th>Product</th><th>Category</th><th>Price before GST</th><th>GST %</th><th>Price incl. GST</th></tr></thead><tbody>
+{% for product in products %}<tr><td>{{ product.name }}</td><td>{{ product.category }}</td><td>₹{{ product.price|floatformat:2 }}</td><td><input type="number" name="gst_{{ product.id }}" value="{{ product.gst_rate|stringformat:'.2f' }}" min="0" max="100" step="0.01"></td><td>₹{{ product.price_with_gst|floatformat:2 }}</td></tr>{% empty %}<tr><td colspan="5">No products found.</td></tr>{% endfor %}
+</tbody></table>
+{% if products %}<p><button class="btn" type="submit">Save GST rates</button></p>{% endif %}</form></section>
+{% endblock %}

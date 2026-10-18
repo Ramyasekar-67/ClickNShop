@@ -1,3 +1,5 @@
+from decimal import Decimal, ROUND_HALF_UP
+
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
@@ -46,9 +48,10 @@ class Product(models.Model):
     
     @property
     def price_with_gst(self):
-        return self.price + (
-            self.price * self.gst_rate / 100
-        )
+        # GST-inclusive unit price, rounded to paise so order totals stay exact.
+        return (
+            self.price + (self.price * self.gst_rate / 100)
+        ).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
     
     def __str__(self):
         return self.name
@@ -152,9 +155,19 @@ class OrderItem(models.Model):
 
     quantity = models.PositiveIntegerField()
 
+    # Unit price saved at purchase time (GST-inclusive).
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2
+    )
+
+    # GST rate (%) applied at purchase time. Null for older orders placed
+    # before this field existed (the report then falls back to the product rate).
+    gst_rate = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True
     )
 
     def subtotal(self):

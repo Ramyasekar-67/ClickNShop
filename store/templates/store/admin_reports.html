@@ -1,0 +1,24 @@
+{% extends 'store/admin_base.html' %}
+{% block title %}Reports - ClickNShop Admin{% endblock %}
+{% block content %}
+<nav style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+<a class="btn {% if report_type != 'inventory' %}secondary{% endif %}" href="{% url 'admin_reports' %}?type=inventory">Inventory</a>
+<a class="btn {% if report_type != 'sales' %}secondary{% endif %}" href="{% url 'admin_reports' %}?type=sales">Sales &amp; Orders</a>
+<a class="btn {% if report_type != 'gst' %}secondary{% endif %}" href="{% url 'admin_reports' %}?type=gst">GST</a>
+<a class="btn secondary" href="{% url 'admin_reports' %}?type={{ report_type }}&amp;export=csv">Download CSV</a>
+</nav>
+{% if report_type == 'sales' %}
+<section class="panel"><h2>Sales &amp; Orders Report</h2><p class="muted">Sales total counts orders that are not cancelled and not awaiting payment.</p><div class="stat">₹{{ total_sales|floatformat:2 }}</div><p>{{ counted_orders }} counted orders out of {{ order_count }} recorded</p>
+<table><thead><tr><th>Order</th><th>Date</th><th>Customer</th><th>Status</th><th>Payment</th><th>Total</th></tr></thead><tbody>{% for order in orders %}<tr><td><a href="{% url 'admin_order_detail' order.id %}">#{{ order.id }}</a></td><td>{{ order.created_at|date:"d M Y" }}</td><td>{{ order.full_name }}</td><td>{{ order.status }}</td><td>{{ order.payment_status }}</td><td>₹{{ order.total_amount|floatformat:2 }}</td></tr>{% empty %}<tr><td colspan="6">No orders found.</td></tr>{% endfor %}</tbody></table></section>
+{% elif report_type == 'gst' %}
+<section class="panel"><h2>GST Report</h2>
+<p class="muted">Based on saved order items (same orders as the sales report). Item prices are GST-inclusive, so taxable value = amount ÷ (1 + rate) and GST = amount − taxable value; GST is counted once.</p>
+{% if legacy_rows %}<p class="msg warning">{{ legacy_rows }} line(s) are from older orders that did not save their GST rate; those rows are marked “est.” and use the product's current rate.</p>{% endif %}
+<table><thead><tr><th>Order</th><th>Date</th><th>Product</th><th>Qty</th><th>GST rate</th><th>Taxable amount</th><th>GST amount</th><th>Total</th></tr></thead><tbody>
+{% for row in gst_rows %}<tr><td>#{{ row.item.order_id }}</td><td>{{ row.item.order.created_at|date:"d M Y" }}</td><td>{% if row.item.product %}{{ row.item.product.name }}{% else %}Deleted product{% endif %}</td><td>{{ row.item.quantity }}</td><td>{{ row.rate }}%{% if row.estimated %} <span class="muted">(est.)</span>{% endif %}</td><td>₹{{ row.taxable|floatformat:2 }}</td><td>₹{{ row.gst_amount|floatformat:2 }}</td><td>₹{{ row.line_total|floatformat:2 }}</td></tr>{% empty %}<tr><td colspan="8">No order items found.</td></tr>{% endfor %}
+</tbody>{% if gst_rows %}<tfoot><tr><td colspan="5">Totals</td><td>₹{{ totals.taxable|floatformat:2 }}</td><td>₹{{ totals.gst|floatformat:2 }}</td><td>₹{{ totals.total|floatformat:2 }}</td></tr></tfoot>{% endif %}</table></section>
+{% else %}
+<section class="panel"><h2>Inventory Report</h2><p>Total units in stock: <strong>{{ total_stock_units }}</strong> · Low stock: <strong>{{ low_stock_count }}</strong> · Out of stock: <strong>{{ out_of_stock_count }}</strong></p>
+<table><thead><tr><th>Product</th><th>Category</th><th>Price before GST</th><th>GST</th><th>Price incl. GST</th><th>Stock</th><th>Status</th></tr></thead><tbody>{% for product in products %}<tr><td>{{ product.name }}</td><td>{{ product.category }}</td><td>₹{{ product.price|floatformat:2 }}</td><td>{{ product.gst_rate }}%</td><td>₹{{ product.price_with_gst|floatformat:2 }}</td><td>{{ product.stock }}</td><td>{% if product.stock == 0 %}<span class="pill out">Out of stock</span>{% elif product.stock <= low_limit %}<span class="pill low">Low stock</span>{% else %}<span class="pill">In stock</span>{% endif %}</td></tr>{% empty %}<tr><td colspan="7">No products found.</td></tr>{% endfor %}</tbody></table></section>
+{% endif %}
+{% endblock %}

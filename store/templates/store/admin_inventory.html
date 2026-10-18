@@ -1,0 +1,21 @@
+{% extends 'store/admin_base.html' %}
+{% block title %}Inventory - ClickNShop Admin{% endblock %}
+{% block content %}
+<div class="actions" style="margin-top:0">
+<a class="btn {% if not filter %}{% else %}secondary{% endif %}" href="{% url 'admin_inventory' %}">All products</a>
+<a class="btn {% if filter == 'low' %}{% else %}secondary{% endif %}" href="{% url 'admin_inventory' %}?filter=low">Low stock (1–{{ low_limit }})</a>
+<a class="btn {% if filter == 'out' %}{% else %}secondary{% endif %}" href="{% url 'admin_inventory' %}?filter=out">Out of stock</a>
+<a class="btn secondary" href="{% url 'admin:store_product_add' %}">+ Add product</a>
+</div>
+<section class="panel"><h2>Inventory &amp; stock updates</h2>
+<form method="post">{% csrf_token %}
+<table><thead><tr><th>Product</th><th>Category</th><th>Price (incl. GST)</th><th>Stock</th><th>Status</th><th>Edit / Delete</th></tr></thead><tbody>
+{% for product in products %}<tr><td>{{ product.name }}</td><td>{{ product.category }}</td><td>₹{{ product.price_with_gst|floatformat:2 }}</td>
+<td><input type="number" name="stock_{{ product.id }}" value="{{ product.stock }}" min="0" step="1"></td>
+<td>{% if product.stock == 0 %}<span class="pill out">Out of stock</span>{% elif product.stock <= low_limit %}<span class="pill low">Low stock</span>{% else %}<span class="pill">In stock</span>{% endif %}</td>
+<td><a href="{% url 'admin:store_product_change' product.id %}">Edit</a> · <a href="{% url 'admin:store_product_delete' product.id %}">Delete</a></td></tr>
+{% empty %}<tr><td colspan="6">No products found.</td></tr>{% endfor %}
+</tbody></table>
+{% if products %}<p><button class="btn" type="submit">Save stock changes</button></p>{% endif %}
+</form></section>
+{% endblock %}

@@ -2,6 +2,14 @@ from django.urls import path
 
 from .views import (
     home,
+    admin_dashboard,
+    admin_reports,
+    admin_inventory,
+    admin_gst,
+    admin_orders,
+    admin_order_detail,
+    admin_login_view,
+    admin_logout_view,
     category_products,
     product_detail,
     register,
@@ -28,6 +36,35 @@ urlpatterns = [
         '',
         home,
         name='home'
+    ),
+
+    path(
+        'my-admin-login/',
+        admin_login_view,
+        name='admin_login'
+    ),
+
+    path(
+        'my-admin-logout/',
+        admin_logout_view,
+        name='admin_logout'
+    ),
+
+    path(
+        'my-admin-dashboard/',
+        admin_dashboard,
+        name='admin_dashboard'
+    ),
+
+    path('my-admin-inventory/', admin_inventory, name='admin_inventory'),
+    path('my-admin-gst/', admin_gst, name='admin_gst'),
+    path('my-admin-orders/', admin_orders, name='admin_orders'),
+    path('my-admin-orders/<int:order_id>/', admin_order_detail, name='admin_order_detail'),
+
+    path(
+        'my-admin-reports/',
+        admin_reports,
+        name='admin_reports'
     ),
 
     path(

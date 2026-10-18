@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}ClickNShop Admin{% endblock %}</title>
+<style>
+:root{--blue:#2874f0;--orange:#ff5722;--bg:#f3f6fb;--ink:#172033;--muted:#687386;--line:#e7ebf2}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--blue);color:#fff;padding:20px max(20px,calc((100% - 1200px)/2)) 0}header h1{margin:0 0 4px;font-size:28px}header .sub{opacity:.9;margin-bottom:14px}
+nav{display:flex;flex-wrap:wrap;gap:4px}nav a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px 8px 0 0;font-size:14px}nav a.on{background:var(--bg);color:var(--blue);font-weight:bold}nav a.right{margin-left:auto}
+main{max-width:1200px;margin:24px auto;padding:0 20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}.card,.panel{background:#fff;border-radius:14px;padding:20px;box-shadow:0 4px 18px #1725540a}.card p{margin:0;color:var(--muted)}.card h2{font-size:28px;margin:12px 0 0;color:var(--blue)}.card.warning h2{color:#b7791f}.card.danger h2{color:#c53030}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--orange);color:#fff;text-decoration:none;font-weight:bold;border:0;cursor:pointer;font-size:14px}.btn.secondary{background:#fff;color:var(--blue);border:1px solid var(--line)}
+.panel{margin-top:20px;overflow-x:auto}.panel h2{margin-top:0;font-size:20px}
+table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line)}th{font-size:13px;color:var(--muted);background:#fafbfe}tfoot td{font-weight:bold;background:#fafbfe}
+.pill{display:inline-block;border-radius:99px;padding:5px 9px;font-size:12px;background:#dcfce7;color:#166534}.pill.low{background:#fef3c7;color:#92400e}.pill.out{background:#fee2e2;color:#991b1b}
+.muted{color:var(--muted)}.empty{color:var(--muted);padding:12px 0}.stat{font-size:27px;font-weight:bold;color:var(--blue)}
+input[type=number],select{padding:8px;border:1px solid #ccd2dc;border-radius:6px;font-size:14px;width:100px}select{width:auto}
+.msg{padding:12px 14px;border-radius:8px;margin-bottom:12px;font-size:14px;background:#e8f1ff;color:#1c4fa3}.msg.error{background:#fff0ed;color:#a12612}.msg.success{background:#e6f7ec;color:#166534}.msg.warning{background:#fef3c7;color:#92400e}
+@media(max-width:600px){header{padding:18px 14px 0}main{padding:0 12px}}
+</style>
+</head>
+<body>
+<header>
+<h1>ClickNShop Admin</h1><div class="sub">Signed in as {{ request.user.username }}</div>
+<nav>
+<a href="{% url 'admin_dashboard' %}" class="{% if active == 'dashboard' %}on{% endif %}">Dashboard</a>
+<a href="{% url 'admin_inventory' %}" class="{% if active == 'inventory' %}on{% endif %}">Inventory</a>
+<a href="{% url 'admin_gst' %}" class="{% if active == 'gst' %}on{% endif %}">GST</a>
+<a href="{% url 'admin_orders' %}" class="{% if active == 'orders' %}on{% endif %}">Orders</a>
+<a href="{% url 'admin_reports' %}" class="{% if active == 'reports' %}on{% endif %}">Reports</a>
+<a href="{% url 'admin:store_product_changelist' %}">Products</a>
+<a href="{% url 'home' %}" class="right">View store</a>
+<a href="{% url 'admin_logout' %}">Log out</a>
+</nav>
+</header>
+<main>
+{% for message in messages %}<div class="msg {{ message.tags }}">{{ message }}</div>{% endfor %}
+{% block content %}{% endblock %}
+</main>
+</body></html>
