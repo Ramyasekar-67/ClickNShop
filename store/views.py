@@ -768,24 +768,48 @@ def verify_payment(request):
 # ADMIN AREA (staff only)
 # =========================================================
 
+
 def admin_login_view(request):
-    if request.user.is_authenticated and request.user.is_staff and request.user.is_active:
-        return redirect(safe_next(request, '') or 'admin_dashboard')
+    if (
+        request.user.is_authenticated
+        and request.user.is_active
+        and request.user.is_staff
+    ):
+        return redirect('admin_dashboard')
 
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
         password = request.POST.get('password', '')
-        user = authenticate(request, username=username, password=password)
 
-        if user is not None and user.is_active and user.is_staff:
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is None:
+            messages.error(
+                request,
+                'Login failed: username/password authentication failed.'
+            )
+        elif not user.is_active:
+            messages.error(
+                request,
+                'Login failed: this account is inactive.'
+            )
+        elif not user.is_staff:
+            messages.error(
+                request,
+                'Login failed: this account is not marked as staff.'
+            )
+        else:
             login(request, user)
-            return redirect(safe_next(request, '') or 'admin_dashboard')
-
-        messages.error(request, 'Invalid credentials or admin access denied.')
+            return redirect('admin_dashboard')
 
     return render(request, 'store/admin_login.html', {
-        'next': request.GET.get('next', ''),
+        'next': request.POST.get('next') or request.GET.get('next', ''),
     })
+
 
 
 def admin_logout_view(request):
