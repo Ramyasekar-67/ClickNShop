@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
@@ -9,8 +10,27 @@ from .models import Product, CartItem, Order, OrderItem, Wishlist, Review
 # PRODUCT ADMIN
 # =========================================================
 
+class ProductAdminForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    def clean_gst_rate(self):
+        rate = self.cleaned_data['gst_rate']
+        if rate < 0 or rate > 100:
+            raise forms.ValidationError('GST rate must be between 0 and 100.')
+        return rate
+
+    def clean_price(self):
+        price = self.cleaned_data['price']
+        if price < 0:
+            raise forms.ValidationError('Price cannot be negative.')
+        return price
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    form = ProductAdminForm
     list_display = (
         'name',
         'category',
@@ -146,6 +166,7 @@ class OrderItemAdmin(admin.ModelAdmin):
         'product',
         'quantity',
         'price',
+        'gst_rate',
     )
 
     search_fields = (
@@ -248,3 +269,9 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('-date_joined',)
 
     date_hierarchy = 'date_joined'
+
+# Show ClickNShop overview and report shortcuts on the main Django Admin page.
+admin.site.index_template = 'admin/clicknshop_index.html'
+admin.site.site_header = 'ClickNShop Administration'
+admin.site.site_title = 'ClickNShop Admin'
+admin.site.index_title = 'Store Management'

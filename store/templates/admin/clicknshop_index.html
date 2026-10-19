@@ -1,0 +1,27 @@
+{% extends "admin/index.html" %}
+{% load i18n %}
+{% block content %}
+<div style="margin:0 0 24px;">
+  <h2 style="margin:0 0 14px;">ClickNShop Dashboard</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px;">
+    <div style="padding:16px;border:1px solid var(--border-color);border-radius:8px;background:var(--body-bg);"><div>Total products</div><strong style="font-size:25px;">{{ clicknshop_total_products }}</strong></div>
+    <div style="padding:16px;border:1px solid var(--border-color);border-radius:8px;background:var(--body-bg);"><div>Units in stock</div><strong style="font-size:25px;">{{ clicknshop_total_stock }}</strong></div>
+    <div style="padding:16px;border:1px solid var(--border-color);border-radius:8px;background:var(--body-bg);"><div>Total orders</div><strong style="font-size:25px;">{{ clicknshop_total_orders }}</strong></div>
+    <div style="padding:16px;border:1px solid var(--border-color);border-radius:8px;background:var(--body-bg);"><div>Customers</div><strong style="font-size:25px;">{{ clicknshop_total_customers }}</strong></div>
+    <div style="padding:16px;border:1px solid var(--border-color);border-radius:8px;background:var(--body-bg);"><div>Low stock (1–5)</div><strong style="font-size:25px;color:#b7791f;">{{ clicknshop_low_stock }}</strong></div>
+    <div style="padding:16px;border:1px solid var(--border-color);border-radius:8px;background:var(--body-bg);"><div>Out of stock</div><strong style="font-size:25px;color:#ba2121;">{{ clicknshop_out_stock }}</strong></div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
+    <a class="button" href="{% url 'admin_reports' %}">Open Reports</a>
+    <a class="button" href="{% url 'admin_reports' %}?type=inventory">Inventory Report</a>
+    <a class="button" href="{% url 'admin_reports' %}?type=sales">Sales Report</a>
+    <a class="button" href="{% url 'admin_reports' %}?type=gst">GST Report</a>
+    <a class="button" href="{% url 'admin_dashboard' %}">ClickNShop Dashboard</a>
+    <a class="button" href="{% url 'admin_inventory' %}">Inventory &amp; Stock</a>
+    <a class="button" href="{% url 'admin_gst' %}">GST Management</a>
+    <a class="button" href="{% url 'admin_orders' %}">Orders</a>
+  </div>
+  <p style="margin-bottom:8px;">Use the sections below to add and edit products, update stock and GST, manage orders, and review customers.</p>
+</div>
+{{ block.super }}
+{% endblock %}

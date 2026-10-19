@@ -15,9 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from urllib.parse import urlencode
+
+from django.shortcuts import redirect
 from django.urls import path, include
 
+def admin_login_redirect(request):
+    # One staff login only: Django Admin's own login page sends staff to the ClickNShop admin login.
+    target = '/my-admin-login/'
+    nxt = request.GET.get('next')
+    return redirect(f'{target}?{urlencode({"next": nxt})}' if nxt else target)
+
+
 urlpatterns = [
+    path('admin/login/', admin_login_redirect),
     path('admin/', admin.site.urls),
     path('', include('store.urls')),
 ]

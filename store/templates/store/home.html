@@ -150,6 +150,19 @@
                 </li>
 
 
+
+                {% if user.is_authenticated and user.is_staff and user.is_active %}
+                <li class="nav-item">
+                    <a class="nav-link"
+                    href="{% url 'admin_dashboard' %}">
+                        <i class="bi bi-speedometer2"></i>
+                        Admin Dashboard
+                    </a>
+                </li>
+                {% endif %}
+
+
+
                 {% if user.is_authenticated %}
 
 
@@ -291,7 +304,7 @@
             {% for category_value, category_name in categories %}
 
                 <a
-                    href="{% url 'home' %}?category={{ category_value|urlencode }}#products"
+                    href="{% url 'home' %}?category={{ category_value }}"
                     class="category-nav-item {% if selected_category == category_value %}active{% endif %}">
 
 
@@ -351,6 +364,7 @@
     </div>
 
 </section>
+
 
 
 
@@ -682,7 +696,7 @@
             {% for category_value, category_name in categories %}
 
                 <a
-                    href="{% url 'category_products' category_value %}"
+                    href="{% url 'home' %}?category={{ category_value|urlencode }}#products"
                     class="category-card">
 
 
@@ -1231,7 +1245,7 @@
 
                                 <!-- Price -->
 
-                                
+
                                     <div class="price-area">
                                         <span class="product-price">
                                             ₹{{ product.price_with_gst|floatformat:2 }}
@@ -2159,7 +2173,7 @@
                         <li>
 
                             <a
-                                href="{% url 'home' %}?category={{ category_value }}">
+                                href="{% url 'home' %}?category={{ category_value|urlencode }}#products">
 
                                 {{ category_name }}
 
@@ -2290,6 +2304,51 @@
 </script>
 
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    let requestNumber = 0;
+
+    async function loadProducts(url) {
+        const oldProducts = document.querySelector('#products');
+        if (!oldProducts) return;
+
+        const scrollY = window.scrollY;
+        const request = ++requestNumber;
+
+        try {
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                window.location.href = url;
+                return;
+            }
+
+            const html = await response.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const newProducts = doc.querySelector('#products');
+
+            if (!newProducts || request !== requestNumber) return;
+
+            oldProducts.replaceWith(newProducts);
+            history.pushState({}, '', url);
+            window.scrollTo(0, scrollY);
+        } catch (error) {
+            window.location.href = url;
+        }
+    }
+
+    document.addEventListener('click', function (event) {
+        const category = event.target.closest(
+            '.category-navigation .category-nav-item'
+        );
+
+        if (category) {
+            event.preventDefault();
+            loadProducts(category.href);
+        }
+    });
+});
+</script>
 </body>
 
 </html>
